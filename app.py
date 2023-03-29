@@ -1,6 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template, redirect
 
 app = (__name__)
+
+@app.get('/')
+def index():
+    return render_template('index.html')
 
 @app.get('/recipes')
 def recipes():

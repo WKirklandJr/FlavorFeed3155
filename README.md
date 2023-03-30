@@ -1,5 +1,5 @@
 # FlavorFeed3155
-Repository for Flavor Feed Project
+This repository houses the scaffolding for a user recipe-sharing community application. By the end, this application will fulfill various user features.
 
 ## Python Version
 

@@ -95,11 +95,11 @@
 
             </form>
 
-            <!--IF LOGGED OUT SHOW SIGN IN BUTTON-->
+            <!--IF LOGGED OUT SHOW SIGN IN BUTTON/ HIDE WHEN LOGGED IN-->
             <a href=""><button class="btn btn-warning my-2 my-sm-0 ml-sm-2" type="button">SIGN IN</button></a>
 
 
-            <!-- IF  LOGGED IN SHOW USER-->
+            <!-- IF  LOGGED IN SHOW USER / HIDE WHEN LOGGED OUT-->
             <div class="nav-user">
                 <div>
                     <ul class="navbar-nav mr-auto">
@@ -107,7 +107,9 @@
                             <div class="nav-user-pic"></div>
                             <a class="nav-link mx-3 text-warning dropdown-toggle" href="#" role="button"
                                 data-hover="dropdown" aria-expanded="false">
-                                USER </a>
+                                {{user_name}} 
+                            
+                            </a>
 
                             <div class="dropdown-menu bg-red">
                                 <a class="dropdown-item" href="#">Edit Profile</a>

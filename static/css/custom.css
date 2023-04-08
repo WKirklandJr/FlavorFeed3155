@@ -7138,6 +7138,9 @@ a.close.disabled {
     color: #212529
 }
 
+
+
+
 .carousel {
     position: relative
 }
@@ -11395,6 +11398,16 @@ a.text-primary:hover {
 
 .text-secondary {
     color: #6c757d !important
+}
+
+.text-red{
+    color: #a60027;
+}
+
+
+a.text-red:focus,
+a.text-red:hover {
+    color: #cc0836 !important
 }
 
 a.text-secondary:focus,

@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, redirect, render_template, request, abort
 
-app = (__name__)
+app = Flask(__name__)
 
 @app.get('/')
 def index():
@@ -8,7 +8,7 @@ def index():
 
 @app.get('/recipes')
 def recipes():
-    return()
+    return render_template('recipes.html')
 
 @app.get('/recipes/<id>')
 def get_recipe():

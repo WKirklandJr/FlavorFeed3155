@@ -1,3 +1,15 @@
 {% extends '_layout.html' %}
 
 {% block title %}All Recipes{% endblock %}
+
+{% block body %}
+
+{% if recipes|length == 0 %}
+<p>There are no recipes</p>
+{% else %}
+{% for recipe in recipes %}
+<a href="{{ recipe.recipe_id }}">{{ recipe.title }}</a>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

@@ -28,6 +28,10 @@ def index():
     return render_template('index.html')
 #TODO:index.html page
 
+@app.get('/about')
+def about():
+    return render_template('about.html')
+
 #LOGIN PAGES
 @app.get('/login')
 def login():

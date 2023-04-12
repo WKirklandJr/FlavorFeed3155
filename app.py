@@ -47,7 +47,7 @@ def recipes():
 
 @app.get('/recipes/<int:recipe_id>')
 def get_recipe():
-    return('get_single_movie.html')
+    return('get_single_recipe.html')
 
 @app.get('/recipes/new')
 def create_recipe():

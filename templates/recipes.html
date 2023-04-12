@@ -3,13 +3,34 @@
 {% block title %}All Recipes{% endblock %}
 
 {% block body %}
-
+<h1 class="mb-5">Recipes</h1>
 {% if recipes|length == 0 %}
-<p>There are no recipes</p>
+<h2 class="mb-5">There are no recipes</p>
 {% else %}
+<table class="table" style="color:white">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Vegan</th>
+            <th>Ingredients</th>
+            <th>Equipment</th>
+            <th>Difficulty</th>
+            <th>Instructions</th>
+        </tr>
+    </thead>
+    <tbody>
 {% for recipe in recipes %}
-<a href="/recipes/{{recipe.recipe_id }}">{{ recipe.title }}</a>
+        <tr>
+            <td><a href="/recipes/{{recipe.recipe_id }}">{{ recipe.title }}</a></td>
+            <td>{% if recipe.is_vegan %}Yes{% else %}No{% endif %}</td>
+            <td>{{recipe.ingredients}}</td>
+            <td>{{recipe.equipment}}</td>
+            <td>{{recipe.difficulty}}</td>
+            <td>{{recipe.text}}</td>
+        </tr>
 {% endfor %}
+    </tbody>
+</table>
 {% endif %}
 
 {% endblock %}

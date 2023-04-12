@@ -21,17 +21,22 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+#HOME PAGES
+
 @app.get('/')
 def index():
     return render_template('index.html')
-
+#TODO:index.html page
 
 #LOGIN PAGES
+@app.get('/login')
 def login():
     return render_template('login.html')
 
+@app.get('/register')
 def register():
     return render_template('registration.html')
+
 
 #RECIPES PAGES
 
@@ -40,26 +45,25 @@ def recipes():
     all_recipes = recipe_repository_singleton.get_all_recipes()
     return render_template('recipes.html', recipes=all_recipes)
 
-@app.get('/recipes/<id>')
+@app.get('/recipes/<int:recipe_id>')
 def get_recipe():
-    return()
+    return('get_single_movie.html')
 
 @app.get('/recipes/new')
-def new_recipe():
-    return()
-
-@app.post('/recipes')
 def create_recipe():
     return()
 
-@app.get('/recipes/<id>/edit')
-def edit_recipe():
-    return()
+@app.get('/recipes/<int:recipe_id>/edit')
+def get_edit_recipe():
+    return('edit_recipe.html')
 
-@app.post('/recipes/<id>')
+@app.post('/recipes/int:recipe_id>')
 def update_recipe():
-    return()
+    return redirect()
 
-@app.post('/recipes/<id>/delete')
+@app.post('/recipes/<int:recipe_id>/delete')
 def delete_recipe():
     return()
+
+#POST PAGES
+#TODO:

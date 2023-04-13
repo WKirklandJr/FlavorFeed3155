@@ -55,7 +55,7 @@ def get_recipe():
 
 @app.get('/recipes/new')
 def create_recipe():
-    return()
+    return render_template('create_recipe.html')
 
 @app.get('/recipes/<int:recipe_id>/edit')
 def get_edit_recipe():

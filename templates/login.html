@@ -1,0 +1,54 @@
+{% extends '_altlayout.html' %}
+
+{% block title %}FlavorFeed | Login{% endblock %}
+
+{% block body %}
+<!-- https://mdbootstrap.com/docs/standard/extended/login/ used as a reference-->
+<div class="row d-flex align-items-center justify-content-center h-100">
+          <div class="card bg-red align-self-center" style=" width: 70%; max-height: 500px; border-radius: .5em;">
+            <div class="row g-0">
+                <div class="col-5" style="overflow: hidden; " >
+                  <img style="height: 498px; border-radius: .5em 0 0 .5em;" src="../static/images/loginfood.jpg"
+                    alt="loginform" />
+                </div>
+                <div class="col-7 d-flex align-items-center">
+                  <div class="card-body p-4  p-lg-5 text-black">
+    
+                    <form method="POST" action="/">
+    
+                      <h2 class="fw-normal" style="letter-spacing: 1px; font-family:'Jost'; font-weight: 700;">LOGIN</h2>
+                            <hr style="width: 30%; border-color: #ffc107;">
+                      <div class="form-outline mb-4">
+                        <label class="text-light" for="username">Username</label>
+                        <input type="username" id="Username" placeholder='Enter Username' class="form-control form-control-log" />
+
+                      </div>
+    
+                      <div class="form-outline mb-4">
+                        <label class="text-light" for="password">Password</label> 
+                        <input type="password" id="Password" placeholder="Enter Password" class="form-control form-control-log" />
+
+                      </div>
+                      <div class="d-flex justify-content-around align-items-center mb-3">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="rememberme" checked />
+                          <label  class="text-light small form-check-label" for="rememberme"> Remember me </label>
+                        </div>
+                        <a class="small text-warning" href="#!">Forgot password?</a>
+                      </div>
+                      <div class="pt-1 mb-4">
+                        <button class="btn btn-warning btn-block" type="button">Login</button>
+                      </div>
+
+                      <p class="text-light small mb-5" >Don't have an account? 
+                          <a class="text-warning" href="/register">Register here</a></p>
+                    </form>
+    
+                  </div>
+                </div> 
+              </div>
+          
+        </div>
+</div>
+{% endblock %}

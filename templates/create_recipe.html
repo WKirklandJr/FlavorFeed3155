@@ -1,0 +1,66 @@
+{% extends '_layout.html' %}
+{% block title %}Create Recipe{% endblock %}
+<!--TODO: Create form that inputs Recipe data-->
+
+{% block body %}
+<form>
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input type="file" class="form-control-file" id="image" name="image">
+    </div>
+    
+    <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="hours">Duration:</label>
+            <input type="number" class="form-control" id="hours" name="hours">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="difficulty">Difficulty:</label>
+            <select class="form-control" id="difficulty" name="difficulty">
+              <option value="" hidden></option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="isVegan" name="isVegan">
+      <label class="form-check-label" for="isVegan">Vegan</label>
+    </div>
+    
+    <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <label for="instructions">Recipe Instructions:</label>
+            <textarea class="form-control" id="instructions" name="instructions" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="col">
+          <div class="d-flex flex-column justify-content-between h-100">
+            <div class="form-group">
+              <label for="equipment">Equipment:</label>
+              <textarea class="form-control" id="equipment" name="equipment" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="ingredients">Ingredients:</label>
+              <textarea class="form-control" id="ingredients" name="ingredients" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <button type="submit" class="btn btn-primary btn-block pt-2 pb-2 mt-3 mb-3" style="background-color: rgb(255, 183, 40); color:black">Upload</button>
+  </form>
+{% endblock %}

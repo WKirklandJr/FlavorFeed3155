@@ -8,8 +8,7 @@
 
 
  */
- @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Khula:wght@300;400;600;700;800&display=swap');
-
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Jost:wght@600;700&family=Khula:wght@300;400;600;700;800&display=swap');
  .material-symbols-outlined {
     font-variation-settings:
     'FILL' 0,
@@ -2336,6 +2335,12 @@ pre code {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.form-control-log{
+    color: #BF8484;
+    background-color: #5B0B0E;
+    border: 0px solid #ced4da;
 }
 
 .search {
@@ -11462,6 +11467,10 @@ a.text-light:hover {
 
 .text-dark {
     color: #343a40 !important
+}
+
+.text-black {
+    color: #281C1D !important
 }
 
 a.text-dark:focus,

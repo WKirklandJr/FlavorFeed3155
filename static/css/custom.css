@@ -24,7 +24,7 @@
     --indigo: #6610f2;
     --purple: #6f42c1;
     --pink: #e83e8c;
-    --red: #a60027;
+    --red: #79001c;
     --orange: #fd7e14;
     --yellow: #ffc107;
     --green: #28a745;
@@ -551,6 +551,35 @@ mark {
     font-size: 90%;
     color: #6c757d
 }
+
+/* Sidebar */
+.sidebar {
+    position: absolute;
+    top: 220px;
+    bottom: 0;
+    left: 0;
+    padding: 10px 0 0; /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.375), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 290px;
+   
+    z-index: 600;
+  }
+  
+
+  .sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  }
+  
+  .sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
+
 
 code {
     font-size: 87.5%;
@@ -7531,7 +7560,7 @@ button.bg-danger:hover {
     background-color: #A50128 !important;
 }
 .bg-red2 {
-    background-color: #A5012850 ;
+    background-color: #79001c ;
 }
 
 
@@ -11402,7 +11431,12 @@ a.text-primary:hover {
 }
 
 .text-secondary {
-    color: #6c757d !important
+    color: #938889 !important
+}
+
+a.text-secondary:focus,
+a.text-secondary:hover {
+    color: #BFB3B4 !important
 }
 
 .text-red{
@@ -11415,10 +11449,7 @@ a.text-red:hover {
     color: #cc0836 !important
 }
 
-a.text-secondary:focus,
-a.text-secondary:hover {
-    color: #494f54 !important
-}
+
 
 .text-success {
     color: #28a745 !important

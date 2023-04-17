@@ -3,7 +3,35 @@
 {% block title %}FlavorFeed | Home{% endblock %}
 
 {% block body %}
-<h1 class="mb-5">FlavorFeed Homepage</h1>
-<p class="mb-3">Welcome to the FlavorFeed Forum! Here, you can view other's recipes, share your recipes and participate in different posts!</p>
-<p>Create an account to get started accessing these awesome features!</p>
+<div class="d-flex flex-row">
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class=" d-lg-block sidebar  ">
+
+        <div class="list-group list-group-flush mx-3 mt-3">
+            <h3>USER_NAME</h3>
+            <hr class="m-0 ml-5 pl-4 mb-2" style="width: 45%; border-width: 2px; border-color: #ffc107;">
+
+            <a href="#" class=" pl-4 mb-1 mt-3 text-secondary">
+                <h5>YOUR POSTS</h5>
+            </a>
+
+            <a href="#" class=" pl-4 mb-1 text-secondary">
+                <h5>SAVED RECIPES</h5>
+            </a>
+
+            <a href="#" class=" pl-4 mb-1 text-secondary">
+                <h5>FOLLOWING</h5>
+            </a>
+
+            <a href="#" class=" pl-4 mb-1 text-secondary">
+                <h5>CONTACT US</h5>
+            </a>
+        </div>
+
+    </nav>
+    <!-- Sidebar -->
+
+
+    
+</div>
 {% endblock %}

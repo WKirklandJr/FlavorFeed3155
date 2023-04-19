@@ -10,23 +10,19 @@
 <table class="table" style="color:white">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Email </th>
-            <th>First Name</th>
-            <th>Email</th>
             <th>Username</th>
+            <th>Email </th>
+            <th>User Rank</th>
             <th>Passowrd Hash</th>
         </tr>
     </thead>
     <tbody>
-{% for recipe in recipes %}
+{% for user in users %}
         <tr>
-            <td><a href="/recipes/{{recipe.recipe_id }}">{{ recipe.title }}</a></td>
-            <td>{% if recipe.is_vegan %}Yes{% else %}No{% endif %}</td>
-            <td>{{recipe.ingredients}}</td>
-            <td>{{recipe.equipment}}</td>
-            <td>{{recipe.difficulty}}</td>
-            <td>{{recipe.text}}</td>
+            <td><a href="/users/{{user.user_id }}">{{ user.user_name }}</a></td>
+            <td>{{user.email}}</td>
+            <td>{{user.skill_level}}</td>
+            <td>{{users.password}}</td>
         </tr>
 {% endfor %}
     </tbody>

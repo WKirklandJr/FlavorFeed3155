@@ -3,11 +3,25 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'users'
+
     user_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String, nullable=False)
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    profile_picture = db.Column(db.String, nullable=False)
+    skill = db.Column(db.String, nullable=False)
+    social = db.Column(db.String, nullable=False)
+    about = db.Column(db.String, nullable=False)
+    
+    def __init__(self, email, username, password) -> None:
+        self.email = email
+        self.username = username
+        self.password = password
+        self.profile_picture = ''
+        self.skill = 'Novice'
+        self.social = ''
+        self.about = ''
 
 class Recipe(db.Model):
     recipe_id = db.Column(db.Integer, primary_key=True)

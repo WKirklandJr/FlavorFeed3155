@@ -14,24 +14,24 @@
           <div class="col-7 d-flex align-items-center">
             <div class="card-body p-4  p-lg-5 text-black">
 
-              <form method="POST" action="/">
+              <form method="post" action="/register">
 
                 <h2 class="fw-normal" style="letter-spacing: 1px; font-family:'Jost'; font-weight: 700;">REGISTER</h2>
                       <hr style="width: 30%; border-color: #ffc107;">
                       <div class="form-outline mb-2">
                         <label class="text-light" for="email">Email</label>
-                        <input type="email" id="email" placeholder='Enter Email' class="form-control form-control-log" />
+                        <input type="email" id="email" name="email" placeholder='Enter Email' class="form-control form-control-log" required/>
       
                       </div>
                       <div class="form-outline mb-2">
                   <label class="text-light" for="username">Username</label>
-                  <input type="username" id="Username" placeholder='Enter Username' class="form-control form-control-log" />
+                  <input type="text" id="Username" name="username" placeholder='Enter Username' class="form-control form-control-log" required/>
 
                 </div>
 
                 <div class="form-outline mb-2">
                   <label class="text-light" for="password">Password</label> 
-                  <input type="password" id="Password" placeholder="Enter Password" class="form-control form-control-log" />
+                  <input type="password" id="Password" name="password" placeholder="Enter Password" class="form-control form-control-log" required/>
 
                 </div>
                 <div class="d-flex mb-2">
@@ -39,7 +39,7 @@
                   <a class="small text-warning" href="#!">Forgot password?</a>
                 </div>
                 <div class="pt-1 ">
-                  <button class="btn btn-warning  btn-block mb-2" type="button">Register</button>
+                  <button class="btn btn-warning  btn-block mb-2" type="submit">Register</button>
                 </div>
                 <center><p class="text-light small">or </p></center>
                 <div class=" mb-4">

@@ -28,12 +28,74 @@
             </a>
         </div>
 
+        <div class="d-flex small justify-content-center text-secondary" style="margin-top: 85%;"> FlavorFeed © 2023</div>
+
     </nav>
     <!-- Sidebar -->
 
 
-    <div class="container p-3" style="position:fixed; margin-left: 350px; height: 600px; overflow: auto;">
+    <div class="container home-post-feed p-3">
 
+        <!-- POST TEMPLATE, NOT FUNCTIONAL-->
+
+        
+
+        <div class="post ">
+            <div class="p-2"><!--TODO: POST TIME VALUE--> hrs ago</div>
+            <div class="card postcard">
+                <!--POST IMAGE-->
+
+                <div class="card postcard-image flex-row bg-red">
+
+                    <img style="width:100%" src="../static/images/loginfood.jpg" alt="">
+                </div>
+
+
+                <div class="d-flex px-3 pt-2 flex-row justify-content-between">
+                    <div class="d-flex flex row">
+                        <!--RECIPE NAME-->
+                        <div class="h2 m-0 pl-2 "><a class="text-light purelink" href="#">RECIPE NAME
+
+                            </a></div>
+
+                        <!--BOOKMARK-->
+                        <div class=" p-2">
+                            <button class="btn p-0 lg">
+                                <span class="material-symbols-outlined text-red">bookmark</span>
+                            </button> <span class="text-red"># <!-- TODO: POST BOOKMARK VALUE--></span>
+                        </div>
+
+                    </div>
+
+                    <!--DURATION TIME-->
+                    <div class="d-flex flex row p-2"> <span class="material-symbols-outlined text-warning px-2">
+                            nest_clock_farsight_analog
+                        </span>
+                        <div><!--DURATION VALUE--> hrs </div>
+                    </div>
+                </div>
+
+                
+                <div class="d-flex px-4">
+                    <div class="rounded-circle bg-light mr-2 post-user-ava"><img class=" " src="" alt=""></div> by <a
+                        class="text-warning pl-1" href="#">
+                        {user} </a>
+                </div>
+
+                <div class="d-flex mt-auto p-3 justify-content-between">
+                    <div><a href="#" class="badge badge-warning">post tag</a></div>
+                    <div><a href="#" class="text-secondary"><span
+                                class="material-symbols-outlined">chat_bubble</span></a>
+                        <a href="#" class="text-secondary"><span class="material-symbols-outlined">
+                                more_horiz
+                            </span></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TODO: LOOP THAT UPDATES CONTAINER WITH NEW POSTS-->
 
     </div>
 

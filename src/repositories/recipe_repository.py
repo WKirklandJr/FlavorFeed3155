@@ -8,5 +8,10 @@ class RecipeRepository:
         all_recipes = Recipe.query.all()
         return all_recipes
     
+    def get_recipe_by_id(self, recipe_id):
+        
+        get_recipe = Recipe.query.get(recipe_id)
+        return get_recipe
+    
 # Singleton: Restricts the instantiation of a class to a single instance
 recipe_repository_singleton = RecipeRepository()

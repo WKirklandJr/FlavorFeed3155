@@ -52,8 +52,11 @@ def recipes():
     return render_template('recipes.html', recipes=all_recipes)
 
 @app.get('/recipes/<int:recipe_id>')
-def get_recipe():
-    return('get_single_recipe.html')
+def get_recipe(recipe_id):
+
+    single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
+    return render_template('get_single_recipe.html', recipe=single_recipe)
+
 
 @app.get('/recipes/new')
 def create_recipe():

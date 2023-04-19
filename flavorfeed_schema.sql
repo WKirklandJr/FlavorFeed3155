@@ -13,11 +13,12 @@ PRIMARY KEY (recipe_id)
 -- Create user table (updated as new varibles are implemented)
 CREATE TABLE IF NOT EXISTS users (
 user_id SERIAL NOT NULL,
-user_name VARCHAR(255) NOT NULL,
-password VARCHAR(255) NOT NULL,
 email VARCHAR(255) NOT NULL,
-user_image BYTEA,
-skill_level VARCHAR(255) NOT NULL,
+username VARCHAR(255) NOT NULL,
+"password" VARCHAR(255) NOT NULL,
+profile_picture VARCHAR(255) NOT NULL,
+skill VARCHAR(255) NOT NULL,
+social VARCHAR(255) NOT NULL,
+about TEXT NOT NULL,
 PRIMARY KEY (user_id)
 );
-

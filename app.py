@@ -2,7 +2,8 @@ from flask import Flask, redirect, render_template, request, abort
 from dotenv import load_dotenv
 import os
 
-from src.models import db
+from src.models import User, db
+from security import bcrypt
 from src.repositories.recipe_repository import recipe_repository_singleton
 
 load_dotenv()
@@ -20,6 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] \
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+bcrypt.init_app(app)
 
 #HOME PAGES
 
@@ -70,4 +72,19 @@ def delete_recipe():
     return()
 
 #POST PAGES
-#TODO:
+@app.post('/register')
+def signup():
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    if not email or not username or not password:
+        abort(400)
+
+    hashed_password = bcrypt.generate_password_hash(password).decode()
+
+    new_user = User(email, username, hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect('/login')

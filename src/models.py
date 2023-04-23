@@ -31,7 +31,7 @@ class Recipe(db.Model):
     is_vegan = db.Column(db.Boolean, nullable=False)
     ingredients = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String, nullable=False)
-    #duration = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
     difficulty = db.Column(db.String, nullable=False)
     text = db.Column(db.String, nullable=False)
     #tags = db.Column(db.String, nullable=False)

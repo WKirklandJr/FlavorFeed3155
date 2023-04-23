@@ -5,6 +5,7 @@ title VARCHAR(255) NOT NULL,
 is_vegan BOOL NOT NULL DEFAULT FALSE,
 ingredients VARCHAR(255) NOT NULL,
 equipment VARCHAR(255) NOT NULL,
+duration SMALLINT NOT NULL,
 difficulty VARCHAR(255) NOT NULL,
 text TEXT NOT NULL,
 PRIMARY KEY (recipe_id)

@@ -1,12 +1,67 @@
 {% extends '_layout.html' %}
 
-<!--TODO: Display an individual recipe's page-->
 
 {% block title %}Flavorfeed || {{ recipe.title }}{% endblock %}
 
 {% block body %}
+<div class="d-flex flex-row ">
+    <div class="user-panel mt-4 p-3 col-2 d-flex flex-column">
+        <div class="" style="width: 100px; height: 100px; background-color: beige;"><img src="" alt=""></div>
+        <div><a href="">user</a></div>
 
-<h1>{{ recipe.title }}</h1>
+
+        <div></div> cooking Rank
+
+        <div> [] posts <br>
+            [] comments</div>
+
+
+        <div> Recipe Tags</div>
+        <div></div>
+        <a class="" href=""></a>
+    </div>
+    <div class="col-md-10 getpost-content p-4" style="background-color: rgba(0, 0, 0, 0.1);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
+        <a href="">edit post</a>
+        <hr style="border-color: antiquewhite;">
+        <div class="d-flex flex-row">
+            <h2>{{ recipe.title }}</h2>
+
+            <div class=" p-2">
+                <button class="btn p-0 lg">
+                    <span class="material-symbols-outlined text-red">bookmark</span>
+                </button> <span class="text-red"># <!-- TODO: POST BOOKMARK VALUE--></span>
+
+
+            </div>
+            <div class="align-self-end">GETDATETIME</div>
+
+        </div>
+        <div class="d-flex flex-row ">
+            <div class="rounded p-2" style="width: 850px; height: 400px; background-color: beige;"> </div>
+            <div class="d-flex flex-column">
+                <div class="h5 pl-3">What You Need</div>
+                <div class="ml-3 rounded" style="width: 280px; height: 370px; background-color: black;">
+                    <div class="text-red">Equipment</div>
+                    <div class="">{{recipe.equipment}}</div>
+                    <div class="text-red">Ingredients</div>
+                    <div>{{recipe.ingredients}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-row">
+            <div class="mx-2">Cooking Time: </div> <div class="text-warning">{{recipe.duration}} Hours</div>
+            <div class="mx-2">Difficulty:</div> <div class="text-warning">{{recipe.difficulty}}</div>
+        </div>
+        <hr style="border-color: antiquewhite;">
+        <div>{{recipe.text}}</div>
+
+    </div>
+
+
+</div>
+
 
 
 {% endblock %}

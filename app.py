@@ -23,28 +23,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 bcrypt.init_app(app)
 
-#HOME PAGES
+#--------- HOME PAGES
 
 @app.get('/')
 def index():
     return render_template('index.html')
-#TODO:index.html page
+
 
 @app.get('/about')
 def about():
     return render_template('about.html')
 
-#LOGIN PAGES
-@app.get('/login')
-def login():
-    return render_template('login.html')
 
-@app.get('/register')
-def register():
-    return render_template('registration.html')
+#--------- USER PAGES
+@app.get('/profile')
+def edit_profile():
+    return render_template('edit_profile.html')
 
 
-#RECIPES PAGES
+
+#--------- RECIPES PAGES
 
 @app.get('/recipes')
 def recipes():
@@ -57,24 +55,72 @@ def get_recipe(recipe_id):
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     return render_template('get_single_recipe.html', recipe=single_recipe)
 
+@app.get('/recipes/<int:recipe_id>/edit')
+def get_edit_recipe(recipe_id):
+
+    single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
+    return render_template('edit_recipe.html', recipe=single_recipe)
 
 @app.get('/recipes/new')
-def create_recipe():
+def create_recipe_page():
     return render_template('create_recipe.html')
 
-@app.get('/recipes/<int:recipe_id>/edit')
-def get_edit_recipe():
-    return('edit_recipe.html')
+@app.post('/recipes')
+def create_recipe():
+    
+    #!!TODO finish implementing create_recipe
+
+    #TODO retrieve duration int value from form
+    #  and add to created_recipe parameters
+    is_vegan = request.form.get('is_vegan', None,type=bool)
+
+    #TODO retrieve duration int value from form
+    #  and add to created_recipe parameters
+    duration = request.form.get('duration', type=int)
+
+    title = request.form.get('title', '')
+    ingredients = request.form.get('ingredients', '')
+    equipment = request.form.get('equipment', '')
+    difficulty = request.form.get('difficulty', '')
+    text = request.form.get('text', '')
+ 
+
+    #Values to implement later
+    #image =
+    #time_posted =
+    #tags = 
+
+    #TODO: add is_Vegan and duration conditions to if statement
+    if title =='' or ingredients=='' or equipment=='' or difficulty =='' or text =='':
+        abort(400)
+
+    created_recipe = recipe_repository_singleton.create_recipe\
+        (title, is_vegan, ingredients,equipment,duration,difficulty,text)
+    return redirect(f'/recipes/{created_recipe.recipe_id}')
+
 
 @app.post('/recipes/int:recipe_id>')
 def update_recipe():
-    return redirect()
+    #TODO: Implement Update Recipe
+    return redirect(f'/recipes/<int:recipe_id>')
 
 @app.post('/recipes/<int:recipe_id>/delete')
 def delete_recipe():
+    #TODO: Implement Delete Recipe
     return()
 
 #POST PAGES
+
+
+#LOGIN PAGES
+@app.get('/login')
+def login():
+    return render_template('login.html')
+
+@app.get('/register')
+def register():
+    return render_template('registration.html')
+
 @app.post('/register')
 def signup():
     email = request.form.get('email')
@@ -91,3 +137,4 @@ def signup():
     db.session.commit()
 
     return redirect('/login')
+ 

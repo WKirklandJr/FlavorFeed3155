@@ -14,19 +14,19 @@
                 <div class="col-7 d-flex align-items-center">
                   <div class="card-body p-4  p-lg-5 text-black">
     
-                    <form method="POST" action="/">
+                    <form method="post" action="/login">
     
                       <h2 class="fw-normal" style="letter-spacing: 1px; font-family:'Jost'; font-weight: 700;">LOGIN</h2>
                             <hr style="width: 30%; border-color: #ffc107;">
                       <div class="form-outline mb-4">
                         <label class="text-light" for="username">Username</label>
-                        <input type="username" id="Username" placeholder='Enter Username' class="form-control form-control-log" />
+                        <input type="username" id="Username" name="username" placeholder='Enter Username' class="form-control form-control-log" required/>
 
                       </div>
     
                       <div class="form-outline mb-4">
                         <label class="text-light" for="password">Password</label> 
-                        <input type="password" id="Password" placeholder="Enter Password" class="form-control form-control-log" />
+                        <input type="password" id="Password" name="password" placeholder="Enter Password" class="form-control form-control-log" required/>
 
                       </div>
                       <div class="d-flex justify-content-around align-items-center mb-3">

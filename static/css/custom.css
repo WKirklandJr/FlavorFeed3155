@@ -173,6 +173,10 @@ small {
     font-size: 80%
 }
 
+big {
+    font-size: 3em;
+}
+
 sub,
 sup {
     position: relative;

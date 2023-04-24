@@ -12,9 +12,22 @@ class RecipeRepository:
         get_recipe = Recipe.query.get(recipe_id)
         return get_recipe
     
-    def create_recipe(self, title,):
-        # TODO: Create recipe in DB
+
+    def create_recipe(self, title, is_vegan, ingredients,equipment,duration,difficulty,text):
+        # Update parameters as new variables are implemented
+        create_recipe = Recipe(title, is_vegan, ingredients,equipment,duration,difficulty,text)
+        db.session.add(create_recipe)
+        db.session.commit()
+        return create_recipe
+    
+    def update_recipe():
+        #TODO: edit a specific recipe in the db
         return None
+
+    def delete_recipe():
+        #TODO: delete a specific recipe in the db
+        return None
+
         
 
     

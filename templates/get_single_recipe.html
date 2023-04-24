@@ -1,12 +1,125 @@
 {% extends '_layout.html' %}
 
-<!--TODO: Display an individual recipe's page-->
 
 {% block title %}Flavorfeed || {{ recipe.title }}{% endblock %}
 
 {% block body %}
+<div class="d-flex flex-row ">
+    <div class="user-panel mt-4 p-3 col-2 d-flex flex-column">
+        <div class="" style="width: 100px; height: 100px; background-color: beige;"><img src="" alt=""></div>
+        <div><a href="">{user}</a></div>
 
-<h1>{{ recipe.title }}</h1>
 
+        <div></div><!--ADD COOKING RANK--> {cooking Rank}
+
+        <div> [<!--ADD POST NUMBER-->] posts <br>
+            [<!--TODO: ADD COMMENT NUMBER-->] comments</div>
+
+
+        <div> Recipe Tags</div>
+        <!--ADD COOKING RANK-->
+
+        <div></div>
+        <a class="" href=""></a>
+    </div>
+
+
+    <!-------------------RECIPE CONTENT--------------------->
+    <div class="col-md-10 getpost-content p-4" style="background-color: rgba(0, 0, 0, 0.1);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
+        <div class="d-flex flex-row justify-content-end">
+            <a class="text-warning px-4 " href="/recipes/{{recipe.recipe_id}}/edit">edit post</a>
+        </div>
+
+        <hr class="m-0 mb-1" style="border-color: #BF8484;">
+        <div class="d-flex flex-row">
+
+            <div class="d-flex flex-row col-6">
+                <h2 class="">{{ recipe.title }}</h2>
+
+                <div class="p-2">
+                    <button class="btn p-0 lg">
+                        <span class="material-symbols-outlined text-red">bookmark</span>
+                    </button> <span class="text-red"># <!-- TODO: POST BOOKMARK VALUE--></span>
+
+                </div>
+            </div>
+            <div class="p-2 col-3 align-self-end text-secondary"> GETDATETIME <!--TODO: IMPLEMENT TIME_POSTED--></div>
+
+            <!--TODO: SHOW AND HIDE IF VEGAN IS CHECKED-->
+            {% if recipe.is_vegan %}
+
+            <div class="p-2 col-3 d-flex flex-row justify-content-end">
+                <div class=" align-self-end">
+                    <h4><span class="badge badge-success ">VEGAN</span></h5>
+                </div>
+                <!-- <div class=" align-self-end">
+                    <div class="badge badge-info">Gluten free!</div>
+                </div> -->
+            </div>
+            {% else %}
+            <div class="p-2 col-3 d-flex flex-row justify-content-end"></div>
+            {% endif%}
+
+        </div>
+        <div class="d-flex flex-row ">
+            <div class="rounded p-2" style="width: 850px; height: 400px; background-color: beige;"> </div>
+            
+            <!------------WHAT YOU NEED-------------->
+            <div class="d-flex flex-column">
+                <div class="h5 pl-3">What You Need</div>
+                <div class="ml-3 rounded"
+                    style="width: 280px; height: 370px; background-color: black; overflow-y: auto;">
+                    <div class="ml-3">
+                    <div class="text-red p-2 mt-3" style="font-size: 1.1em;"><b>Equipment</b></div>
+                    <ul>
+                        <!-- Loop to separate string into list-->
+                        {% set equipmentlist = recipe.equipment.split(',') %}
+                        {% for item in equipmentlist %}
+                        <li>
+                            <div class="">{{item}}</div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="text-red p-2 mt-3 " style="font-size: 1.1em;"><b>Ingredients</b></div>
+
+                    <ul>
+                        <!-- Loop to separate string into list-->
+                        {% set ingredientslist = recipe.ingredients.split(',') %}
+                        {% for item in ingredientslist %}
+                        <li>
+                            <div class="">{{item}}</div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-2 d-flex flex-row text-lg">
+            <div class="d-flex flex-row col-8 m-0">
+                <div class="mr-2"><b>Duration:</b> </div>
+                <div class="text-warning">{{recipe.duration}} Hours</div>
+                <div class="mx-2"><b>Difficulty:</b> </div>
+                <div class="text-warning">{{recipe.difficulty}}</div>
+            </div>
+            <div col-3>
+                <div><a href="#" class="text-secondary"><span class="material-symbols-outlined">chat_bubble</span></a>
+                    <a href="#" class="text-secondary"><span class="material-symbols-outlined">
+                            more_horiz
+                        </span></a>
+                </div>
+            </div>
+        </div>
+        <hr class="m-0 mb-1" style="border-color: antiquewhite;">
+        <div class="p-3">{{recipe.text}}</div>
+
+    </div>
+
+
+</div>
+
+<!--COMMENTS-->
 
 {% endblock %}

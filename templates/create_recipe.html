@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container">
-  <form action="/recipes" method="post">
+  <form  method="post" action="/recipes">
     <div class="form-group">
       <label for="image">Image:</label>
       <input type="file" class="form-control-file" id="image" name="image">
@@ -19,8 +19,8 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <label for="hours">Duration:</label>
-          <input type="number" class="form-control" id="hours" name="hours">
+          <label for="duration">Duration:</label>
+          <input type="number" class="form-control" id="duration" name="hours">
         </div>
       </div>
       <div class="col">
@@ -37,15 +37,15 @@
     </div>
 
     <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="isVegan" name="isVegan">
-      <label class="form-check-label" for="isVegan">Vegan</label>
+      <input type="checkbox" class="form-check-input"  id="is_vegan" name="isVegan">
+      <label class="form-check-label" for="is_vegan">Vegan</label>
     </div>
 
     <div class="form-row">
       <div class="col">
         <div class="form-group">
-          <label for="instructions">Recipe Instructions:</label>
-          <textarea class="form-control" id="instructions" name="instructions" rows="5"></textarea>
+          <label for="text">Recipe Instructions:</label>
+          <textarea class="form-control" id="text" name="text" rows="5"></textarea>
         </div>
       </div>
       <div class="col">

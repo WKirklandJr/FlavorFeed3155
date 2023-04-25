@@ -9,7 +9,7 @@ duration SMALLINT NOT NULL,
 difficulty VARCHAR(255) NOT NULL,
 instructions TEXT NOT NULL,
 recipe_image VARCHAR(255) NOT NULL,
-date_posted DATE NOT NULL,
+date_posted TIMESTAMP NOT NULL,
 PRIMARY KEY (recipe_id)
 );
 

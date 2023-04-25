@@ -2,12 +2,14 @@
 CREATE TABLE IF NOT EXISTS recipe (
 recipe_id SERIAL NOT NULL,
 title VARCHAR(255) NOT NULL,
-is_vegan BOOL  DEFAULT FALSE,
+is_vegan BOOL  DEFAULT FALSE NOT NULL,
 ingredients VARCHAR(255) NOT NULL,
 equipment VARCHAR(255) NOT NULL,
 duration SMALLINT NOT NULL,
 difficulty VARCHAR(255) NOT NULL,
-text TEXT NOT NULL,
+instructions TEXT NOT NULL,
+recipe_image VARCHAR(255) NOT NULL,
+date_posted DATE NOT NULL,
 PRIMARY KEY (recipe_id)
 );
 

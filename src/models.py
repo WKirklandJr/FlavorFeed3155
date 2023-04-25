@@ -33,7 +33,7 @@ class Recipe(db.Model):
     difficulty = db.Column(db.String, nullable=False)
     instructions = db.Column(db.String, nullable=False)
     recipe_image = db.Column(db.String, nullable=False)
-    date_posted = db.Column(db.Date, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False)
     #tags = db.Column(db.String, nullable=False)
 
     # Users are not implemented yet

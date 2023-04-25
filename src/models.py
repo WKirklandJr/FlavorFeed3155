@@ -25,15 +25,15 @@ class User(db.Model):
 
 class Recipe(db.Model):
     recipe_id = db.Column(db.Integer, primary_key=True)
-    #time_posted = db.Column(db.Date, nullable=False)
     title = db.Column(db.String, nullable=False)
-    #image = db.Column(db.String, nullable=True)
-    is_vegan = db.Column(db.Boolean, nullable=True)
+    is_vegan = db.Column(db.Boolean, nullable=False)
     ingredients = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     difficulty = db.Column(db.String, nullable=False)
-    text = db.Column(db.String, nullable=False)
+    instructions = db.Column(db.String, nullable=False)
+    recipe_image = db.Column(db.String, nullable=False)
+    date_posted = db.Column(db.Date, nullable=False)
     #tags = db.Column(db.String, nullable=False)
 
     # Users are not implemented yet
@@ -41,12 +41,14 @@ class Recipe(db.Model):
     #author = db.relationship('User', backref='author')
 
     def __init__\
-        (self, title,is_vegan,ingredients,equipment,duration,difficulty,text) -> None:
+        (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted) -> None:
         self.title = title
         self.is_vegan = is_vegan
         self.ingredients = ingredients
         self.equipment = equipment
         self.duration = duration
         self.difficulty = difficulty
-        self.text = text
+        self.instructions = instructions
+        self.recipe_image = recipe_image
+        self.date_posted = date_posted
 

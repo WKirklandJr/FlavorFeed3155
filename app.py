@@ -1,6 +1,7 @@
 from flask import Flask, session, redirect, render_template, request, abort
 from dotenv import load_dotenv
-import os
+import os, datetime
+from werkzeug.utils import secure_filename
 
 from src.models import User, db
 from security import bcrypt
@@ -124,35 +125,36 @@ def create_recipe_page():
 
 @app.post('/recipes')
 def create_recipe():
+    is_vegan = bool(request.form.get('is_vegan'))
+    duration = request.form.get('duration')
+    title = request.form.get('title')
+    ingredients = request.form.get('ingredients')
+    equipment = request.form.get('equipment')
+    difficulty = request.form.get('difficulty')
+    instructions = request.form.get('instructions')
     
-    #!!TODO finish implementing create_recipe
-
-    #TODO retrieve duration int value from form
-    #  and add to created_recipe parameters
-    is_vegan = request.form.get('is_vegan', None,type=bool)
-
-    #TODO retrieve duration int value from form
-    #  and add to created_recipe parameters
-    duration = request.form.get('duration', type=int)
-
-    title = request.form.get('title', '')
-    ingredients = request.form.get('ingredients', '')
-    equipment = request.form.get('equipment', '')
-    difficulty = request.form.get('difficulty', '')
-    text = request.form.get('text', '')
- 
-
-    #Values to implement later
-    #image =
-    #time_posted =
-    #tags = 
-
-    #TODO: add is_Vegan and duration conditions to if statement
-    if title =='' or ingredients=='' or equipment=='' or difficulty =='' or text =='':
+    if not title or not ingredients or not equipment or not duration or not difficulty or not instructions:
+        print('One or more fields are missing or empty')
         abort(400)
 
+    print(request.files)
+    if 'recipe_image' not in request.files:
+        print('No recipe image file was uploaded')
+        abort(400)
+
+    recipe_image = request.files['recipe_image']
+    if recipe_image.filename == '' or recipe_image.filename.rsplit('.', 1)[1] not in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
+        print('Invalid file format for recipe image')
+        abort(400)
+
+    img_filename = secure_filename(recipe_image.filename)
+    recipe_image.save(os.path.join('static', 'recipe-images', img_filename))
+
+    date_posted = datetime.date.today()
+    print(date_posted)
+
     created_recipe = recipe_repository_singleton.create_recipe\
-        (title, is_vegan, ingredients,equipment,duration,difficulty,text)
+        (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
 
 

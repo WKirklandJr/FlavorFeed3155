@@ -13,9 +13,9 @@ class RecipeRepository:
         return get_recipe
     
 
-    def create_recipe(self, title, is_vegan, ingredients,equipment,duration,difficulty,text):
+    def create_recipe(self, title, is_vegan, ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted):
         # Update parameters as new variables are implemented
-        create_recipe = Recipe(title, is_vegan, ingredients,equipment,duration,difficulty,text)
+        create_recipe = Recipe(title, is_vegan, ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted)
         db.session.add(create_recipe)
         db.session.commit()
         return create_recipe

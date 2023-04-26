@@ -3,5 +3,67 @@
 {% block title %}FlavorFeed | Edit {{recipe.title}} {% endblock %}
 
 {% block body %}
+<div class="container">
+    <form  method="post" action="/recipes" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="recipe_image">Image:</label>
+        <input type="file" class="form-control-file" id="recipe_image" name="recipe_image">
+      </div>
+  
+      <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" value= "{{recipe.title}}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="duration">Duration:</label>
+            <input type="number" class="form-control" id="duration" name="duration" placeholder="Minutes:" value="{{recipe.duration}}">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="difficulty">Difficulty:</label>
+            <select class="form-control" id="difficulty" name="difficulty" value="{{recipe.difficulty}}">
+              <option value="" hidden></option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input"  id="is_vegan" name="is_vegan" value="{{recipe.is_vegan}}">
+        <label class="form-check-label" for="is_vegan">Vegan</label>
+      </div>
+  
+      <div class="form-row">
+        <div class="col">
+          <div class="d-flex flex-column justify-content-between h-100">
+            <div class="form-group">
+              <label for="equipment">Equipment:</label>
+              <textarea class="form-control" id="equipment" name="equipment" rows="2">{{recipe.equipment}}</textarea>
+            </div>
+            <div class="form-group">
+              <label for="ingredients">Ingredients:</label>
+              <textarea class="form-control" id="ingredients" name="ingredients" rows="2">{{recipe.ingredients}}</textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="text">Recipe Instructions:</label>
+            <textarea class="form-control" id="instructions" name="instructions" rows="5">{{recipe.instructions}}</textarea>
+          </div>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-warning btn-block py-2 my-3">Upload</button>
+    </form>
+  </div>
 
 {% endblock %}

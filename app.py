@@ -1,6 +1,7 @@
 from flask import Flask, session, redirect, render_template, request, abort
 from dotenv import load_dotenv
-import os, datetime
+import os
+import datetime
 from werkzeug.utils import secure_filename
 
 from src.models import User, db
@@ -26,7 +27,8 @@ app.secret_key = os.getenv('APP_SECRET')
 db.init_app(app)
 bcrypt.init_app(app)
 
-#--------- HOME PAGES
+# --------- HOME PAGES
+
 
 @app.get('/')
 def index():
@@ -37,13 +39,16 @@ def index():
 def about():
     return render_template('about.html')
 
-#LOGIN PAGES
+# LOGIN PAGES
+
+
 @app.get('/login')
 def login_form():
     if 'user' in session:
         return redirect('/user/profile')
-    
+
     return render_template('login.html')
+
 
 @app.post('/login')
 def login():
@@ -57,22 +62,24 @@ def login():
 
     if not existing_user:
         return redirect('/login')
-    
+
     if not bcrypt.check_password_hash(existing_user.password, password):
         return redirect('/login')
-    
+
     session['user'] = {
         'username': username
     }
 
     return redirect('/user/profile')
 
+
 @app.get('/register')
 def register():
     if 'user' in session:
         return redirect('user/profile')
-    
+
     return render_template('registration.html')
+
 
 @app.post('/register')
 def signup():
@@ -91,6 +98,7 @@ def signup():
 
     return redirect('/login')
 
+
 @app.get('/logout')
 def logout():
     if 'user' in session:
@@ -98,14 +106,13 @@ def logout():
     return redirect('/login')
 
 
-
-
-#--------- RECIPES PAGES
+# --------- RECIPES PAGES
 
 @app.get('/recipes')
 def recipes():
     all_recipes = recipe_repository_singleton.get_all_recipes()
     return render_template('recipes.html', recipes=all_recipes)
+
 
 @app.get('/recipes/<int:recipe_id>')
 def get_recipe(recipe_id):
@@ -113,15 +120,18 @@ def get_recipe(recipe_id):
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     return render_template('get_single_recipe.html', recipe=single_recipe)
 
+
 @app.get('/recipes/<int:recipe_id>/edit')
 def get_edit_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     return render_template('edit_recipe.html', recipe=single_recipe)
 
+
 @app.get('/recipes/new')
 def create_recipe_page():
     return render_template('create_recipe.html')
+
 
 @app.post('/recipes')
 def create_recipe():
@@ -132,7 +142,7 @@ def create_recipe():
     equipment = request.form.get('equipment')
     difficulty = request.form.get('difficulty')
     instructions = request.form.get('instructions')
-    
+
     if not title or not ingredients or not equipment or not duration or not difficulty or not instructions:
         print('One or more fields are missing or empty')
         abort(400)
@@ -153,27 +163,32 @@ def create_recipe():
     date_posted = datetime.date.today()
     print(date_posted)
 
-    created_recipe = recipe_repository_singleton.create_recipe\
-        (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted)
+    created_recipe = recipe_repository_singleton.create_recipe(title, is_vegan, ingredients, equipment, duration,
+                                                               difficulty, instructions, img_filename, date_posted)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
 
 
 @app.post('/recipes/int:recipe_id>')
 def update_recipe():
-    #TODO: Implement Update Recipe
+    # TODO: Implement Update Recipe
+    recipe_repository_singleton.update_recipe(recipe_id)
     return redirect(f'/recipes/<int:recipe_id>')
+
 
 @app.post('/recipes/<int:recipe_id>/delete')
 def delete_recipe():
-    #TODO: Implement Delete Recipe
-    return()
+    # TODO: Implement Delete Recipe
+    recipe_repository_singleton.delete_recipe(recipe_id)
+    return redirect('/recipes')
 
-#POST PAGES
+# POST PAGES
 
 # User pages
+
+
 @app.get('/user/profile')
 def profile():
     if 'user' not in session:
         return redirect('/login')
-    
+
     return render_template('get_single_profile.html')

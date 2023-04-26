@@ -148,14 +148,16 @@ def create_recipe():
         abort(400)
 
     img_filename = secure_filename(recipe_image.filename)
-    recipe_image.save(os.path.join('static', 'recipe-images', img_filename))
+    recipe_image.save(os.path.join('static', 'post-images', img_filename))
 
-    date_posted = datetime.date.today()
-    print(date_posted)
+    date_posted = datetime.datetime.now()
+    print(date_posted.ctime())
 
     created_recipe = recipe_repository_singleton.create_recipe\
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
+
+
 
 
 @app.post('/recipes/int:recipe_id>')

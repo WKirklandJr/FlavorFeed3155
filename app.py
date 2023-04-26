@@ -30,6 +30,8 @@ bcrypt.init_app(app)
 
 @app.get('/')
 def index():
+    
+
     return render_template('index.html')
 
 
@@ -65,7 +67,7 @@ def login():
         'username': username
     }
 
-    return redirect('/user/profile')
+    return redirect('/')
 
 @app.get('/register')
 def register():
@@ -125,6 +127,7 @@ def create_recipe_page():
 
 @app.post('/recipes')
 def create_recipe():
+    #get variables from form
     is_vegan = bool(request.form.get('is_vegan'))
     duration = request.form.get('duration')
     title = request.form.get('title')
@@ -137,11 +140,13 @@ def create_recipe():
         print('One or more fields are missing or empty')
         abort(400)
 
+
+    #image file data
     print(request.files)
     if 'recipe_image' not in request.files:
         print('No recipe image file was uploaded')
         abort(400)
-
+    
     recipe_image = request.files['recipe_image']
     if recipe_image.filename == '' or recipe_image.filename.rsplit('.', 1)[1] not in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
         print('Invalid file format for recipe image')
@@ -150,9 +155,11 @@ def create_recipe():
     img_filename = secure_filename(recipe_image.filename)
     recipe_image.save(os.path.join('static', 'post-images', img_filename))
 
+    #datetime data
     date_posted = datetime.datetime.now()
     print(date_posted.ctime())
 
+    #datetime data
     created_recipe = recipe_repository_singleton.create_recipe\
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
@@ -179,3 +186,8 @@ def profile():
         return redirect('/login')
     
     return render_template('get_single_profile.html')
+
+@app.get('/profile')
+def edit_profile():
+    return render_template('edit_profile.html')
+

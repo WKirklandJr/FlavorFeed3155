@@ -1,5 +1,5 @@
 -- Create user table (updated as new varibles are implemented)
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS users (
 user_id SERIAL NOT NULL,
 email VARCHAR(255) NOT NULL,
 username VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ PRIMARY KEY (user_id)
 );
 
 -- Create recipes table (to be updated as variables are implemented)
-CREATE TABLE IF NOT EXISTS recipe (
+CREATE TABLE IF NOT EXISTS recipes (
 recipe_id SERIAL NOT NULL,
 title VARCHAR(255) NOT NULL,
 is_vegan BOOL  DEFAULT FALSE NOT NULL,

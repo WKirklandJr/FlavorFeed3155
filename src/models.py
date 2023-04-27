@@ -48,10 +48,10 @@ class Recipe(db.Model):
     recipe_image = db.Column(db.String, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False)
 
-    author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    author = db.relationship('User', backref='author')
+    #author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=True)
+    #author = db.relationship('User', backref='author')
 
-    bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
+    #bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
 
 
     def __init__\
@@ -66,37 +66,37 @@ class Recipe(db.Model):
         self.recipe_image = recipe_image
         self.date_posted = date_posted
 
-class user_recipe_comment(db.Model):
-    __tablename__ = 'user_recipe_comments'
+#class user_recipe_comment(db.Model):
+#    __tablename__ = 'user_recipe_comments'
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.recipe_id'), primary_key=True)
-    comment = db.Column(db.String, nullable=False)
+#    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), primary_key=True)
+#    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.recipe_id'), primary_key=True)
+#    comment = db.Column(db.String, nullable=False)
 
-    def __init__(self, user_id, recipe_id, comment):
-        self.user_id = user_id
-        self.recipe_id = recipe_id
-        self.comment = comment
+#    def __init__(self, user_id, recipe_id, comment):
+#        self.user_id = user_id
+#        self.recipe_id = recipe_id
+#        self.comment = comment
 
 # Junction table for the n:n relationship b/w recipes and tags
-recipe_tag = db.Table(
-    'recipe_tag',
-    db.Column('recipe_id', db.Integer, \
-              db.ForeignKey('recipe.recipe_id'), primary_key=True),
-    db.Column('tag_id', db.Integer, \
-              db.ForeignKey('tag.tag_id'), primary_key=True)
-)
+#recipe_tag = db.Table(
+#    'recipe_tag',
+#    db.Column('recipe_id', db.Integer, \
+#              db.ForeignKey('recipe.recipe_id'), primary_key=True),
+#    db.Column('tag_id', db.Integer, \
+#              db.ForeignKey('tag.tag_id'), primary_key=True)
+#)
 
 # Table for tags
-class Tag(db.Model):
-    __tablename__ = 'tags'
+#class Tag(db.Model):
+#    __tablename__ = 'tags'
+#
+#    tag_id = db.Column(db.Integer, primary_key=True)
+#    tag = db.Column(db.String, nullable=False)
 
-    tag_id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String, nullable=False)
+#    recipes = db.relationship('Recipe', secondary=recipe_tag, backref='tags')
 
-    recipes = db.relationship('Recipe', secondary=recipe_tag, backref='tags')
-
-    def __init__(self, tag_id, tag):
-        self.tag_id = tag_id
-        self.tag = tag
+#    def __init__(self, tag_id, tag):
+#        self.tag_id = tag_id
+#        self.tag = tag
 

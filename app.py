@@ -177,3 +177,8 @@ def profile():
         return redirect('/login')
     
     return render_template('get_single_profile.html')
+
+# Edit profile page
+@app.get('/profile')
+def edit_profile():
+    return render_template('edit_profile.html')

@@ -23,7 +23,9 @@ difficulty VARCHAR(255) NOT NULL,
 instructions TEXT NOT NULL,
 recipe_image VARCHAR(255) NOT NULL,
 date_posted TIMESTAMP NOT NULL,
-PRIMARY KEY (recipe_id)
+user_id INT NULL,
+PRIMARY KEY (recipe_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 -- n:n relationship b/w users and recipes

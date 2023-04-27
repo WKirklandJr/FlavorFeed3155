@@ -166,16 +166,16 @@ def create_recipe():
 
 
 
-
 @app.post('/recipes/int:recipe_id>')
 def update_recipe():
-    #TODO: Implement Update Recipe
+    recipe_repository_singleton.update_recipe(recipe_id)
     return redirect(f'/recipes/<int:recipe_id>')
+
 
 @app.post('/recipes/<int:recipe_id>/delete')
 def delete_recipe():
-    #TODO: Implement Delete Recipe
-    return()
+    recipe_repository_singleton.delete_recipe(recipe_id)
+    return redirect('/recipes')
 
 #POST PAGES
 

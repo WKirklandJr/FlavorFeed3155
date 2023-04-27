@@ -20,14 +20,29 @@ class RecipeRepository:
         db.session.commit()
         return create_recipe
     
-    def update_recipe():
-        #TODO: edit a specific recipe in the db
-        return None
+    def update_recipe(recipe_id):
+        recipe_to_update = Recipe.query.get(recipe_id)
+        if request.method == "POST":
+            recipe_to_update.recipe_title = request.form['title']
+            recipe_to_update.recipe_is_vegan = request.form['is_vegan']
+            recipe_to_update.recipe_ingredients = request.form['ingredients']
+            recipe_to_update.recipe_equipment = request.form['equipment']
+            recipe_to_update.recipe_duration = request.form['duration']
+            recipe_to_update.recipe_difficulty = request.form['difficulty']
+            recipe_to_update.recipe_instructions = request.form['instructions']
+            recipe_to_update.recipe_recipe_image = request.form['recipe_image']
+            try:
+                db.session.commit()
+                return recipe_to_update
+            except:
+                return abort(400)
 
-    def delete_recipe():
-        #TODO: delete a specific recipe in the db
-        return None
-
+    def delete_recipe(recipe_id):
+        # TODO: delete a specific recipe in the db
+        recipe_to_delete = Recipe.query.get_or_404(recipe_id)
+        db.session.delete(recipe_to_delete)
+        db.sesion.commit()
+        return recipe_to_delete
         
 
     

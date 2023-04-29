@@ -1,8 +1,10 @@
+{% extends '_layout.html' %}
+
 {% block title %}FlavorFeed | Edit Profile{% endblock %}
 
 <!-- TODO: Edit user profile -->
 
-
+{% block body %}
 <div class="container">
 <h2 class="py-4 ">EDIT PROFILE ({{username['username']}})</h2>
     <form class="ml-3" method="put" action="/profile" enctype="multipart/form-data">

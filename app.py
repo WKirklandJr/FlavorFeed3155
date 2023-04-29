@@ -43,12 +43,8 @@ def getusername():
 #--------- HOME PAGES
 
 @app.get('/')
-<<<<<<< HEAD
 def index():
-    
-=======
-def index():   
->>>>>>> main
+       
 
     return render_template('index.html')
 

@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, render_template, request, abort
 from dotenv import load_dotenv
-import os, datetime
+import os, datetime, functools
 from werkzeug.utils import secure_filename
 
 from src.models import User, db
@@ -26,11 +26,29 @@ app.secret_key = os.getenv('APP_SECRET')
 db.init_app(app)
 bcrypt.init_app(app)
 
+def userauth(route):
+    @functools.wraps(route)
+    def wrapper(*args, **kwargs):
+        if 'user' in session:
+            return route(*args, **kwargs)
+        return redirect('/login')
+    return wrapper
+    
+@app.context_processor
+def getusername():
+  
+    return {'username': session.get('user')} 
+
+
 #--------- HOME PAGES
 
 @app.get('/')
+<<<<<<< HEAD
 def index():
     
+=======
+def index():   
+>>>>>>> main
 
     return render_template('index.html')
 

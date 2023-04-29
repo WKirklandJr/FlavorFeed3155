@@ -1,68 +1,64 @@
-{% block title %}FlavorFeed | Edit {{recipe.title}} {% endblock %}
+{% block title %}FlavorFeed | Edit Profile{% endblock %}
 
-{% block body %}
+<!-- TODO: Edit user profile -->
+
+
 <div class="container">
-    <form  method="post" action="/recipes" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="recipe_image">Image:</label>
-        <input type="file" class="form-control-file" id="recipe_image" name="recipe_image">
-      </div>
+<h2 class="py-4 ">EDIT PROFILE ({{username['username']}})</h2>
+    <form class="ml-3" method="put" action="/profile" enctype="multipart/form-data">
 
-      <div class="form-row">
-        <div class="col">
-          <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" name="title" value= "{{recipe.title}}">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="duration">Duration:</label>
-            <input type="number" class="form-control" id="duration" name="duration" placeholder="Minutes:" value="{{recipe.duration}}">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="difficulty">Difficulty:</label>
-            <select class="form-control" id="difficulty" name="difficulty" value="{{recipe.difficulty}}">
-              <option value="" hidden></option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input"  id="is_vegan" name="is_vegan" value="{{recipe.is_vegan}}">
-        <label class="form-check-label" for="is_vegan">Vegan</label>
-      </div>
-
-      <div class="form-row">
-        <div class="col">
-          <div class="d-flex flex-column justify-content-between h-100">
-            <div class="form-group">
-              <label for="equipment">Equipment:</label>
-              <textarea class="form-control" id="equipment" name="equipment" rows="2">{{recipe.equipment}}</textarea>
+        <div class="form-group mb-3">
+            <label for="profile-pic">Profile Image</label>
+            <div class="upload-btn-wrapper">
+                <input type="file" name="profile-pic" id="profile-pic">
             </div>
-            <div class="form-group">
-              <label for="ingredients">Ingredients:</label>
-              <textarea class="form-control" id="ingredients" name="ingredients" rows="2">{{recipe.ingredients}}</textarea>
-            </div>
-          </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="text">Recipe Instructions:</label>
-            <textarea class="form-control" id="instructions" name="instructions" rows="5">{{recipe.instructions}}</textarea>
-          </div>
-        </div>
-      </div>
 
-      <button type="submit" class="btn btn-warning btn-block py-2 my-3">Upload</button>
+        <div class="form-row mb-5">
+            <div class="col-3 mr-3">
+                <label for="username">Username:</label>
+                <input type="username" id="Username" name="username" placeholder={{username['username']}}
+                    class="ml-3 form-control form-control-user"  style="width: 80%;" />
+            </div>
+            <div class="col-3">
+                <label for="password">Password:</label>
+                <input type="password" id="Password" name="password" placeholder="*********"
+                    class="form-control form-control-user "  />
+            </div>
+        </div>
+
+
+        <div class="form-row mb-4">
+            <div class="col-3 mr-3">
+                <div class="form-group mr-5">
+                    <label for="cook-type">What kind of cook are you?</label>
+                    <select class="form-control ml-3" id="cook-type" name="cook-type">
+                        <option value="" hidden></option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Casual Cook">Casual Cook</option>
+                        <option value="Cooking Hobbyist">Cooking Hobbyist</option>
+                        <option value="Culinary Student">Culinary Student</option>
+                        <option value="Professional Chef">Professional Chef</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="social-link">Social Media Link:</label>
+                    <input class="form-control" type="text" id="social-link" name="social-link">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="profile-info">Profile Info</label>
+            <textarea class="ml-3" id="profile-info" name="profile-info" rows="5" cols="50"
+                style="width: 100%;"></textarea>
+        </div>
+
+
+        <button class="btn btn-warning m-3  mb-4" style="width: 100%;">SAVE
+            INFO</button>
     </form>
-  </div>
-
+</div>
 {% endblock %}
-

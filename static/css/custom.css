@@ -2377,6 +2377,12 @@ pre code {
     border: 0px solid #ced4da;
 }
 
+.form-control-user {
+    color: #4b3e3e;
+    background-color: #1f1919;
+    border: 0px solid #ced4da;
+}
+
 .search {
     display: block;
     width: 100%;

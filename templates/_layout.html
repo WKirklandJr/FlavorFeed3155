@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="../static/css/custom.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -24,11 +24,11 @@
 
 
 <div class="header">
-    <div class="header-banner"><img class="header-banner-img" src="../static/images/FLAVORFEED_BANNER.png"
+    <div class="header-banner"><img class="header-banner-img" src="/static/images/FLAVORFEED_BANNER.png"
             alt="Flavorfeed banner">
     </div>
     <nav class="navbar navbar-expand-md navbar-light bg-red">
-        <a class="navbar-brand" href="/"><img src="../static/images/FLAVORFEED_LOGO.png" alt="Flavorfeed" height="22px"></a>
+        <a class="navbar-brand" href="/"><img src="/static/images/FLAVORFEED_LOGO.png" alt="Flavorfeed" height="22px"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -109,15 +109,7 @@
                                     restaurant
                                 </span>CREATE RECIPE</a>
 
-                                <a class="dropdown-item" href="#"> <span class="material-symbols-outlined" style="font-variation-settings:
-                                    'FILL' 1,
-                                    'wght' 400,
-                                    'GRAD' 0,
-                                    'opsz' 10;
-                                    padding-right: .5em;
-                                    font-size: 1.25em;">
-                                        history_edu
-                                    </span>CREATE POST</a>
+                            
                     </div>
                 </li>
 
@@ -130,18 +122,19 @@
             </form>
 
             <!--IF LOGGED OUT SHOW SIGN IN BUTTON/ HIDE WHEN LOGGED IN-->
+            {% if username is none %}
             <a href="/login"><button class="btn btn-warning my-2 my-sm-0 ml-sm-2" type="button">SIGN IN</button></a>
-
-
+           
+            {% else %}
             <!-- IF  LOGGED IN SHOW USER / HIDE WHEN LOGGED OUT-->
-            <div class="nav-user">
+            <div class="nav-user mr-2">
                 <div>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown ">
                             <div class="nav-user-pic"></div>
                             <a class="nav-link mx-3 text-warning dropdown-toggle" href="#" role="button"
                             data-toggle="dropdown" data-hover="dropdown" aria-expanded="false">
-                                {{user_name}} 
+                                {{username['username']}}
                             
                             </a>
 
@@ -154,7 +147,7 @@
                     </ul>
                 </div>
             </div>
-
+            {% endif %}
         </div>
 
     </nav>

@@ -6,57 +6,66 @@
 
 <!-- TODO: Edit user profile -->
 
-<hr style="width: 30%">
-<h2 class="fw-normal" style="letter-spacing: 1px; font-family:'Jost'; font-weight: 700; margin-left: auto; margin-right: auto; width: 12em">EDIT PROFILE (USER)</h2>
-<hr style="width: 30%">
+
+
+
 
 <div class="container">
-    <div class="form-group">
-        <label for="profile-pic">Profile Image</label>
-        <div class="upload-btn-wrapper">
-            <input type="file" name="profile-pic" id="profile-pic">
-        </div>
-    </div>
+<h2 class="py-4 ">EDIT PROFILE ({{username['username']}})</h2>
+    <form class="ml-3" method="put" action="/profile" enctype="multipart/form-data">
 
-
-    <form method="" action="">
-        <div class="form-outline mb-4">
-            <label class="text-light" for="username">Username</label>
-            <br>
-            <input type="username" id="Username" name="username" placeholder="USER" class="form-control form-control-log"/>
+        <div class="form-group mb-3">
+            <label for="profile-pic">Profile Image</label>
+            <div class="upload-btn-wrapper">
+                <input type="file" name="profile-pic" id="profile-pic">
+            </div>
         </div>
 
-        <div class="form-outline mb-4">
-            <label class="text-light" for="password">Password</label> 
-            <br>
-            <input type="password" id="Password" name="password" placeholder="*********" class="form-control form-control-log"/>
-        </div>
-    
-        <div class="form-group">
-            <label for="cook-type">What kind of cook are you?</label>
-            <br>
-            <select id="cook-type" name="cook-type">
-                <option value=""></option>
-                <option value="home-cook">Home Cook</option>
-                <option value="professional-chef">Professional Cook</option>
-                <option value="aspiring-cook">Aspiring Cook</option>
-            </select>
+        <div class="form-row mb-5">
+            <div class="col-3 mr-3">
+                <label for="username">Username:</label>
+                <input type="username" id="Username" name="username" placeholder={{username['username']}}
+                    class="ml-3 form-control form-control-user"  style="width: 80%;" />
+            </div>
+            <div class="col-3">
+                <label for="password">Password:</label>
+                <input type="password" id="Password" name="password" placeholder="*********"
+                    class="form-control form-control-user "  />
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="social-media-link">Social Media Link</label>
-            <br>
-            <input type="text" id="social-link" name="social-link">
+
+        <div class="form-row mb-4">
+            <div class="col-3 mr-3">
+                <div class="form-group mr-5">
+                    <label for="cook-type">What kind of cook are you?</label>
+                    <select class="form-control ml-3" id="cook-type" name="cook-type">
+                        <option value="" hidden></option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Casual Cook">Casual Cook</option>
+                        <option value="Cooking Hobbyist">Cooking Hobbyist</option>
+                        <option value="Culinary Student">Culinary Student</option>
+                        <option value="Professional Chef">Professional Chef</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="social-link">Social Media Link:</label>
+                    <input class="form-control" type="text" id="social-link" name="social-link">
+                </div>
+            </div>
         </div>
-  
         <div class="form-group">
             <label for="profile-info">Profile Info</label>
-            <br>
-            <textarea id="profile-info" name="profile-info" rows="5" cols="50" style="border-top: 40px solid black;"></textarea>
+            <textarea class="ml-3" id="profile-info" name="profile-info" rows="5" cols="50"
+                style="width: 100%;"></textarea>
         </div>
-        
 
-        <button style="display: block; margin: 0 auto; width: 90%; border: 2px solid goldenrod; background-color: goldenrod; color: black; padding: 10px; font-size: 16px;">SAVE INFO</button>
+
+        <button class="btn btn-warning m-3  mb-4" style="width: 100%;">SAVE
+            INFO</button>
     </form>
 </div>
-        {% endblock %}
+{% endblock %}

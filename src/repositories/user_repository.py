@@ -9,11 +9,6 @@ class UserRepository:
     def get_user_by_id(self, user_id):
         get_user = User.query.get(user_id)
         return get_user
-    
-    def get_user_in_session(self, user_id):
-
-        session_user = User.query.get(user_id)
-        return session_user
 
     def update_user(self, user_id, username , skill, social, about, profile_picture):
         update_user = User.query.get(user_id)

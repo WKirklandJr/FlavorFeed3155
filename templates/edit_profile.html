@@ -6,26 +6,26 @@
 
 {% block body %}
 <div class="container">
-<h2 class="py-4 ">EDIT PROFILE ({{username['username']}})</h2>
-    <form class="ml-3" method="put" action="/profile" enctype="multipart/form-data">
+<h2 class="py-4 ">EDIT PROFILE ({{user.username}})</h2>
+    <form class="ml-3" method="post" action="/profile/{{user.user_id}}/edit" enctype="multipart/form-data">
 
         <div class="form-group mb-3">
-            <label for="profile-pic">Profile Image</label>
+            <label for="profile_picture">Profile Image</label>
             <div class="upload-btn-wrapper">
-                <input type="file" name="profile-pic" id="profile-pic">
+                <input type="file" class="form-control-file" name="profile_picture" id="profile_picture">
             </div>
         </div>
 
         <div class="form-row mb-5">
             <div class="col-3 mr-3">
                 <label for="username">Username:</label>
-                <input type="username" id="Username" name="username" placeholder={{username['username']}}
+                <input type="text" id="username" name="username" placeholder="{{user.username}}" value="{{user.username}}"
                     class="ml-3 form-control form-control-user"  style="width: 80%;" />
             </div>
             <div class="col-3">
                 <label for="password">Password:</label>
-                <input type="password" id="Password" name="password" placeholder="*********"
-                    class="form-control form-control-user "  />
+                <input type="password" id="password" name="password" placeholder="*********"
+                    class="form-control form-control-user " disabled />
             </div>
         </div>
 
@@ -33,8 +33,8 @@
         <div class="form-row mb-4">
             <div class="col-3 mr-3">
                 <div class="form-group mr-5">
-                    <label for="cook-type">What kind of cook are you?</label>
-                    <select class="form-control ml-3" id="cook-type" name="cook-type">
+                    <label for="skill">What kind of cook are you?</label>
+                    <select class="form-control ml-3" id="skill" name="skill" value="{{user.skill}}">
                         <option value="" hidden></option>
                         <option value="Beginner">Beginner</option>
                         <option value="Casual Cook">Casual Cook</option>
@@ -47,19 +47,19 @@
 
             <div class="col-4">
                 <div class="form-group">
-                    <label for="social-link">Social Media Link:</label>
-                    <input class="form-control" type="text" id="social-link" name="social-link">
+                    <label for="social">Social Media Link:</label>
+                    <input class="form-control" type="text" id="social" name="social" value="{{user.social}}">
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label for="profile-info">Profile Info</label>
-            <textarea class="ml-3" id="profile-info" name="profile-info" rows="5" cols="50"
-                style="width: 100%;"></textarea>
+            <label for="about">Profile Info</label>
+            <textarea class="ml-3" id="about" name="about" rows="5" cols="50"
+                style="width: 100%;">{{user.about}}</textarea>
         </div>
 
 
-        <button class="btn btn-warning m-3  mb-4" style="width: 100%;">SAVE
+        <button type="submit" class="btn btn-warning m-3  mb-4" style="width: 100%;">SAVE
             INFO</button>
     </form>
 </div>

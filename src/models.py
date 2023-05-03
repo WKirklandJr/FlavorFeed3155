@@ -15,6 +15,10 @@ class User(db.Model):
     social = db.Column(db.String, nullable=True)
     about = db.Column(db.String, nullable=True)
     
+    recipes = db.relationship('Recipe', backref='author')
+
+
+    
     def __init__(self, email, username, password) -> None:
         self.email = email
         self.username = username
@@ -24,14 +28,14 @@ class User(db.Model):
         self.social = ''
         self.about = ''
 
-# Junction table for the n:n relationship b/w users and recipes
-bookmarks = db.Table(
-    'bookmarks',
-    db.Column('user_id', db.Integer, \
-              db.ForeignKey('user.user_id'), primary_key=True),
-    db.Column('tag_id', db.Integer, \
-              db.ForeignKey('recipe.recipe_id'), primary_key=True)
-)
+# # Junction table for the n:n relationship b/w users and recipes
+# bookmarks = db.Table(
+#     'bookmarks',
+#     db.Column('user_id', db.Integer, \
+#               db.ForeignKey('user.user_id'), primary_key=True),
+#     db.Column('tag_id', db.Integer, \
+#               db.ForeignKey('recipe.recipe_id'), primary_key=True)
+# )
 
 # Table for recipes
 class Recipe(db.Model):
@@ -47,15 +51,14 @@ class Recipe(db.Model):
     instructions = db.Column(db.String, nullable=False)
     recipe_image = db.Column(db.String, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id'), nullable=False)
 
-    #author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=True)
-    #author = db.relationship('User', backref='author')
 
     #bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
 
 
     def __init__\
-        (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted) -> None:
+        (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted,user_id) -> None:
         self.title = title
         self.is_vegan = is_vegan
         self.ingredients = ingredients
@@ -65,6 +68,7 @@ class Recipe(db.Model):
         self.instructions = instructions
         self.recipe_image = recipe_image
         self.date_posted = date_posted
+        self.user_id = user_id
 
 #class user_recipe_comment(db.Model):
 #    __tablename__ = 'user_recipe_comments'

@@ -44,22 +44,22 @@ def getusername():
 @app.context_processor
 def getuserID():
     if 'user' in session:
-        session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first_or_404()
-        return {'user_id': session_user.user_id } 
+        #session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first_or_404()
+        return {'user_id': session.get('user') } 
     return ''
     
 
 #--------- HOME PAGES
 
 @app.get('/')
-def index():
-        
+def index():    
     return render_template('index.html')
 
 
 @app.get('/about')
 def about():
     return render_template('about.html')
+
 
 #LOGIN PAGES
 @app.get('/login')
@@ -86,7 +86,8 @@ def login():
         return redirect('/login')
     
     session['user'] = {
-        'username': username
+        'username': existing_user.username,
+        'user_id': existing_user.user_id
     }
 
     return redirect('/')
@@ -135,7 +136,8 @@ def recipes():
 def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
-    return render_template('get_single_recipe.html', recipe=single_recipe)
+    author_info = User.query.filter_by(user_id = single_recipe.user_id).first()
+    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info)
 
 @app.get('/recipes/<int:recipe_id>/edit')
 def get_edit_recipe(recipe_id):
@@ -183,9 +185,11 @@ def create_recipe():
     date_posted = datetime.datetime.now()
     print(date_posted.ctime())
 
-    #datetime data
+    if 'user' in session:
+        user_id= session['user']['user_id']
+
     created_recipe = recipe_repository_singleton.create_recipe\
-        (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted)
+        (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
 
 
@@ -218,6 +222,8 @@ def update_recipe(recipe_id):
 
     img_filename = secure_filename(recipe_image.filename)
     recipe_image.save(os.path.join('static', 'post-images', img_filename))
+
+ 
 
     recipe_repository_singleton.update_recipe(recipe_id, title, is_vegan,\
         ingredients, equipment, duration, difficulty, instructions, img_filename)

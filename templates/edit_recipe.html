@@ -3,11 +3,22 @@
 {% block title %}FlavorFeed | Edit {{recipe.title}} {% endblock %}
 
 {% block body %}
-<div class="container">
-  <form method="post" action="/recipes/{{recipe.recipe_id}}" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="recipe_image">Image:</label>
-      <input type="file" class="form-control-file" id="recipe_image" name="recipe_image">
+<div class="container p-3 mt-4">
+  
+  <form method="post" action="/recipes/{{recipe.recipe_id}}/edit" enctype="multipart/form-data">
+    <div class="form-group d-flex flex row justify-content-between">
+      <div class="mb-4 ml-3">
+        <h2>EDIT RECIPE</h2>
+      </div>
+      <div class=" mt-2"><button class="btn btn-danger bg-red">DELETE POST</button></div>
+    </div>
+
+
+    <div class="">
+      <div> <label for="recipe_image">Image:</label>
+        <input type="file" class="form-control-file" id="recipe_image" name="recipe_image">
+      </div>
+
     </div>
 
     <div class="form-row">
@@ -29,11 +40,11 @@
           <label for="difficulty">Difficulty:</label>
           <select class="form-control" id="difficulty" name="difficulty" value="{{recipe.difficulty}}" required>
             {% macro render_option(value,title)%}
-              {% if value == recipe.difficulty %}
-              <option selected value="{{value}}">{{title}}</option>
+            {% if value == recipe.difficulty %}
+            <option selected value="{{value}}">{{title}}</option>
 
-              {% else %}
-              <option value="{{value}}">{{title}}</option>
+            {% else %}
+            <option value="{{value}}">{{title}}</option>
             {% endif %}
 
             {% endmacro %}

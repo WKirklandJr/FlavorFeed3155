@@ -1,12 +1,12 @@
 from flask import Flask, session, redirect, render_template, request, abort
 from dotenv import load_dotenv
-import os
-import datetime
+import os, datetime, functools
 from werkzeug.utils import secure_filename
 
 from src.models import User, db
 from security import bcrypt
 from src.repositories.recipe_repository import recipe_repository_singleton
+from src.repositories.user_repository import user_repository_singleton
 
 load_dotenv()
 
@@ -27,11 +27,32 @@ app.secret_key = os.getenv('APP_SECRET')
 db.init_app(app)
 bcrypt.init_app(app)
 
-# --------- HOME PAGES
+def userauth(route):
+    @functools.wraps(route)
+    def wrapper(*args, **kwargs):
+        if 'user' in session:
+            return route(*args, **kwargs)
+        return redirect('/login')
+    return wrapper
+    
+# Gets session username across application
+@app.context_processor
+def getusername():
+    return {'username': session.get('user')} 
 
+# Gets session user ID across application
+@app.context_processor
+def getuserID():
+    if 'user' in session:
+        #session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first_or_404()
+        return {'user_id': session.get('user') } 
+    return ''
+    
+
+#--------- HOME PAGES
 
 @app.get('/')
-def index():
+def index():    
     return render_template('index.html')
 
 
@@ -39,16 +60,14 @@ def index():
 def about():
     return render_template('about.html')
 
-# LOGIN PAGES
 
-
+#LOGIN PAGES
 @app.get('/login')
 def login_form():
     if 'user' in session:
-        return redirect('/user/profile')
-
+        return redirect('/')
+    
     return render_template('login.html')
-
 
 @app.post('/login')
 def login():
@@ -62,24 +81,23 @@ def login():
 
     if not existing_user:
         return redirect('/login')
-
+    
     if not bcrypt.check_password_hash(existing_user.password, password):
         return redirect('/login')
-
+    
     session['user'] = {
-        'username': username
+        'username': existing_user.username,
+        'user_id': existing_user.user_id
     }
 
-    return redirect('/user/profile')
-
+    return redirect('/')
 
 @app.get('/register')
 def register():
     if 'user' in session:
-        return redirect('user/profile')
-
+        return redirect('/')
+    
     return render_template('registration.html')
-
 
 @app.post('/register')
 def signup():
@@ -98,7 +116,6 @@ def signup():
 
     return redirect('/login')
 
-
 @app.get('/logout')
 def logout():
     if 'user' in session:
@@ -106,20 +123,21 @@ def logout():
     return redirect('/login')
 
 
-# --------- RECIPES PAGES
+
+
+#--------- RECIPES PAGES
 
 @app.get('/recipes')
 def recipes():
     all_recipes = recipe_repository_singleton.get_all_recipes()
     return render_template('recipes.html', recipes=all_recipes)
 
-
 @app.get('/recipes/<int:recipe_id>')
 def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
-    return render_template('get_single_recipe.html', recipe=single_recipe)
-
+    author_info = User.query.filter_by(user_id = single_recipe.user_id).first()
+    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info)
 
 @app.get('/recipes/<int:recipe_id>/edit')
 def get_edit_recipe(recipe_id):
@@ -127,14 +145,15 @@ def get_edit_recipe(recipe_id):
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     return render_template('edit_recipe.html', recipe=single_recipe)
 
-
 @app.get('/recipes/new')
 def create_recipe_page():
     return render_template('create_recipe.html')
 
 
+
 @app.post('/recipes')
 def create_recipe():
+    #get variables from form
     is_vegan = bool(request.form.get('is_vegan'))
     duration = request.form.get('duration')
     title = request.form.get('title')
@@ -142,16 +161,18 @@ def create_recipe():
     equipment = request.form.get('equipment')
     difficulty = request.form.get('difficulty')
     instructions = request.form.get('instructions')
-
+    
     if not title or not ingredients or not equipment or not duration or not difficulty or not instructions:
         print('One or more fields are missing or empty')
         abort(400)
 
+
+    #image file data
     print(request.files)
     if 'recipe_image' not in request.files:
         print('No recipe image file was uploaded')
         abort(400)
-
+    
     recipe_image = request.files['recipe_image']
     if recipe_image.filename == '' or recipe_image.filename.rsplit('.', 1)[1] not in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
         print('Invalid file format for recipe image')
@@ -160,42 +181,120 @@ def create_recipe():
     img_filename = secure_filename(recipe_image.filename)
     recipe_image.save(os.path.join('static', 'post-images', img_filename))
 
+    #datetime data
     date_posted = datetime.datetime.now()
     print(date_posted.ctime())
 
-    created_recipe = recipe_repository_singleton.create_recipe(title, is_vegan, ingredients, equipment, duration,
-                                                               difficulty, instructions, img_filename, date_posted)
+    if 'user' in session:
+        user_id= session['user']['user_id']
+
+    created_recipe = recipe_repository_singleton.create_recipe\
+        (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)
     return redirect(f'/recipes/{created_recipe.recipe_id}')
 
 
 
+@app.post('/recipes/<int:recipe_id>/edit')
+def update_recipe(recipe_id):
+    is_vegan = bool(request.form.get('is_vegan'))
+    duration = request.form.get('duration')
+    title = request.form.get('title')
+    ingredients = request.form.get('ingredients')
+    equipment = request.form.get('equipment')
+    difficulty = request.form.get('difficulty')
+    instructions = request.form.get('instructions')
+    
+    if not title or not ingredients or not equipment or not duration or not difficulty or not instructions:
+        print('One or more fields are missing or empty')
+        abort(400)
 
-@app.post('/recipes/int:recipe_id>')
-def update_recipe():
-    # TODO: Implement Update Recipe
-    recipe_repository_singleton.update_recipe(recipe_id)
-    return redirect(f'/recipes/<int:recipe_id>')
+
+    #image file data
+    print(request.files)
+    if 'recipe_image' not in request.files:
+        print('No recipe image file was uploaded')
+        abort(400)
+    
+    recipe_image = request.files['recipe_image']
+    if recipe_image.filename == '' or recipe_image.filename.rsplit('.', 1)[1] not in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
+        print('Invalid file format for recipe image')
+        abort(400)
+
+    img_filename = secure_filename(recipe_image.filename)
+    recipe_image.save(os.path.join('static', 'post-images', img_filename))
+
+ 
+
+    recipe_repository_singleton.update_recipe(recipe_id, title, is_vegan,\
+        ingredients, equipment, duration, difficulty, instructions, img_filename)
+    
+    return redirect(f'/recipes/{recipe_id}')
 
 
 @app.post('/recipes/<int:recipe_id>/delete')
 def delete_recipe():
-    # TODO: Implement Delete Recipe
     recipe_repository_singleton.delete_recipe(recipe_id)
     return redirect('/recipes')
 
-# POST PAGES
-
-# User pages
 
 
-@app.get('/user/profile')
-def profile():
+
+
+
+
+#-------------- USER PAGES
+
+
+@app.get('/users/<int:user_id>')
+def get_user(user_id):
+
+    single_user = user_repository_singleton.get_user_by_id(user_id)
+
+    return render_template('get_single_profile.html', user=single_user)
+
+
+@app.get('/profile/<int:user_id>/edit')
+def get_edit_profile(user_id):
+    
     if 'user' not in session:
         return redirect('/login')
+    
 
-    return render_template('get_single_profile.html')
+    session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first()
+    user_id = session_user.user_id
 
-# Edit profile page
-@app.get('/profile')
-def edit_profile():
-    return render_template('edit_profile.html')
+    if user_id != session_user.user_id:
+        print('Incorrect session user. Access denied.')
+        abort(400) 
+    else:   
+        single_user = user_repository_singleton.get_user_by_id(user_id)
+        return render_template('edit_profile.html', user=single_user)
+
+
+@app.post('/profile/<int:user_id>/edit')
+def update_user(user_id):
+
+    username = request.form.get('username')
+    skill = request.form.get('skill')
+    social = request.form.get('social')
+    about  = request.form.get('about')
+
+
+     #image file data
+    print(request.files)
+    if 'profile_picture' not in request.files:
+        print('No profile image file was uploaded')
+        abort(400)
+    
+    profile_picture = request.files['profile_picture']
+    if profile_picture.filename == '' or profile_picture.filename.rsplit('.', 1)[1] not in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
+        print('Invalid file format for profile image')
+        abort(400)
+
+    img_filename = secure_filename(profile_picture.filename)
+    profile_picture.save(os.path.join('static', 'profile-images', img_filename))
+
+
+    user_repository_singleton.update_user(user_id, username, skill, social, about, img_filename)
+    
+    return redirect(f'/users/{user_id}')

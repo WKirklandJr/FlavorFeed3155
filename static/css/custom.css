@@ -2377,6 +2377,12 @@ pre code {
     border: 0px solid #ced4da;
 }
 
+.form-control-user {
+    color: #4b3e3e;
+    background-color: #1f1919;
+    border: 0px solid #ced4da;
+}
+
 .search {
     display: block;
     width: 100%;
@@ -2447,7 +2453,7 @@ pre code {
 
 .form-control:disabled,
 .form-control[readonly] {
-    background-color: #e9ecef;
+    background-color: #221d1d;
     opacity: 1
 }
 
@@ -4803,7 +4809,7 @@ input[type=submit].btn-block {
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #dee2e6
+    border-bottom: 1px solid #212529
 }
 
 .nav-tabs .nav-link {
@@ -7624,6 +7630,9 @@ button.bg-danger:hover {
     background-color: #79001c;
 }
 
+.bg-red3 {
+    background-color: #5B0B0E;
+}
 
 a.bg-red:hover,
 a.bg-red:focus,
@@ -11493,6 +11502,10 @@ a.text-primary:hover {
 
 .text-secondary {
     color: #938889 !important
+}
+
+.text-tertiary {
+    color: #91595B !important
 }
 
 a.text-secondary:focus,

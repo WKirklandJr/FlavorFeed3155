@@ -1,0 +1,55 @@
+{% extends '_layout.html' %}
+
+{% block title %}FlavorFeed | Profile{% endblock %}
+
+
+{% block body %}
+<div class="bg-red3">
+    <div class="bg-light" style="width: 100%; height: 50px; overflow: hidden;"><img src="/static/images/PROFILE_BACKGROUND.jpg" alt=""></div>
+    <div class="d-flex flex-row pl-5 ">
+        <div class="col-1 mr-3 d-flex flex-column" style="position: relative; bottom: 25px;">
+            <div class="bg-light rounded" style="width: 120px; height: 120px; overflow:hidden; border: solid 4px #5B0B0E;"><img src="/static/profile-images/{{user.profile_picture}}" style="width: 110px; height: 110px;" alt=""></div>
+            <div>
+                <button class="btn btn-warning m-1 mt-2 p-0 px-2" style="height: 30px;">+ Follow</button>
+            </div>
+        </div>
+        <div class="mt-3 col-5 d-flex flex-column">
+            <div class="h3 mb-0">{{user.username}}</div>
+            <div class="h5 text-secondary mb-1">{{user.skill}}</div>
+            <div class="mb-2"><a class="text-warning " href="http://{{user.social}}">{{user.social}}</a></div>
+            <div>
+                <p>{{user.about}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex flex-row justify-content-center" style="background-color: rgba(0, 0, 0, 0.1)">
+    <ul class="nav nav-tabs">
+        <li class="active px-2"> <a class="purelink text-secondary" data-toggle="tab" href="#recipes">
+                <div class="p-2 h4 ">VIEW RECIPES ()</div>
+            </a></li>
+        <li class="px-2"> <a class="purelink text-secondary" data-toggle="tab" href="#comments">
+                <div class="p-2 h4 ">VIEW COMMENTS ()</div>
+            </a></li>
+
+    </ul>
+
+</div>
+<div>
+    <div class="tab-content p-5 justify-content-center">
+        <div id="recipes" class="tab-pane active">
+            
+            recipe content
+
+        </div>
+        <div id="comments" class="tab-pane fade">
+            comment content
+            
+                </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

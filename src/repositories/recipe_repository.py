@@ -5,7 +5,6 @@ class RecipeRepository:
 
     def get_all_recipes(self):
         # Get all recipes
-        # This will need to change as the number of recipes increase
         all_recipes = Recipe.query.all()
         return all_recipes
 
@@ -13,31 +12,26 @@ class RecipeRepository:
         get_recipe = Recipe.query.get(recipe_id)
         return get_recipe
 
-    def create_recipe(self, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image, date_posted):
+    def create_recipe(self, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image, date_posted, user_id):
         # Update parameters as new variables are implemented
         create_recipe = Recipe(title, is_vegan, ingredients, equipment,
-                               duration, difficulty, instructions, recipe_image, date_posted)
+                               duration, difficulty, instructions, recipe_image, date_posted, user_id)
         db.session.add(create_recipe)
         db.session.commit()
         return create_recipe
 
-    def update_recipe(recipe_id):
-        # TODO: edit a specific recipe in the db
-        recipe_to_update = Recipe.query.get(recipe_id)
-        if request.method == "POST":
-            recipe_to_update.recipe_title = request.form['title']
-            recipe_to_update.recipe_is_vegan = request.form['is_vegan']
-            recipe_to_update.recipe_ingredients = request.form['ingredients']
-            recipe_to_update.recipe_equipment = request.form['equipment']
-            recipe_to_update.recipe_duration = request.form['duration']
-            recipe_to_update.recipe_difficulty = request.form['difficulty']
-            recipe_to_update.recipe_instructions = request.form['instructions']
-            recipe_to_update.recipe_recipe_image = request.form['recipe_image']
-            try:
-                db.session.commit()
-                return recipe_to_update
-            except:
-                return abort(400)
+    def update_recipe(self, recipe_id, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image):
+        update_recipe = Recipe.query.get(recipe_id)
+        update_recipe.title = title
+        update_recipe.is_vegan = is_vegan
+        update_recipe.ingredients = ingredients
+        update_recipe.equipment = equipment
+        update_recipe.duration = duration
+        update_recipe.difficulty = difficulty
+        update_recipe.instructions = instructions
+        update_recipe.recipe_image = recipe_image
+        db.session.commit()
+        return update_recipe
 
     def delete_recipe(recipe_id):
         # TODO: delete a specific recipe in the db

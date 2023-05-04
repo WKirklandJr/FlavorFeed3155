@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os, datetime, functools
 from werkzeug.utils import secure_filename
 
-from src.models import User, db
+from src.models import User, Tag, db
 from security import bcrypt
 from src.repositories.recipe_repository import recipe_repository_singleton
 from src.repositories.user_repository import user_repository_singleton
@@ -44,7 +44,6 @@ def getusername():
 @app.context_processor
 def getuserID():
     if 'user' in session:
-        #session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first_or_404()
         return {'user_id': session.get('user') } 
     return ''
     
@@ -53,7 +52,9 @@ def getuserID():
 
 @app.get('/')
 def index():    
-    return render_template('index.html')
+    all_recipes = recipe_repository_singleton.get_all_recipes()
+
+    return render_template('index.html', recipes=all_recipes )
 
 
 @app.get('/about')
@@ -61,7 +62,7 @@ def about():
     return render_template('about.html')
 
 
-#LOGIN PAGES
+#-----LOGIN PAGES
 @app.get('/login')
 def login_form():
     if 'user' in session:
@@ -185,8 +186,13 @@ def create_recipe():
     date_posted = datetime.datetime.now()
     print(date_posted.ctime())
 
+    #tagstring = request.form.get('')
+
+
     if 'user' in session:
         user_id= session['user']['user_id']
+
+
 
     created_recipe = recipe_repository_singleton.create_recipe\
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)

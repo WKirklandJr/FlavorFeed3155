@@ -37,27 +37,27 @@
     <!-- Sidebar -->
 
 
-    <div class="container home-post-feed p-3">
+    <div class="container home-post-feed p-3" style="width: 100%;">
 
         <!-- POST TEMPLATE, NOT FUNCTIONAL-->
 
         
-
+        {% for recipe in recipes|reverse %}
         <div class="post ">
-            <div class="p-2"><!--TODO: POST TIME VALUE--> hrs ago</div>
+            <div class="p-2 text-secondary">{{recipe.date_posted.strftime('%b %d @ %I:%M %p')}} </div>
             <div class="card postcard">
                 <!--POST IMAGE-->
 
                 <div class="card postcard-image flex-row bg-red">
 
-                    <img style="width:100%" src="../static/images/loginfood.jpg" alt="">
+                    <img style="width:100%" src="../static/post-images/{{recipe.recipe_image}}" alt="">
                 </div>
 
 
                 <div class="d-flex px-3 pt-2 flex-row justify-content-between">
                     <div class="d-flex flex row">
                         <!--RECIPE NAME-->
-                        <div class="h2 m-0 pl-2 "><a class="text-light purelink" href="#">RECIPE NAME
+                        <div class="h2 m-0 pl-2 "><a class="text-light purelink" href="/recipes/{{recipe.recipe_id}}">{{recipe.title}}
 
                             </a></div>
 
@@ -74,7 +74,7 @@
                     <div class="d-flex flex row p-2"> <span class="material-symbols-outlined text-warning px-2">
                             nest_clock_farsight_analog
                         </span>
-                        <div><!--DURATION VALUE--> hrs </div>
+                        <div>{{recipe.duration}} mins </div>
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
 
         </div>
 
-        <!-- TODO: LOOP THAT UPDATES CONTAINER WITH NEW POSTS-->
+        {% endfor %}
 
     </div>
 

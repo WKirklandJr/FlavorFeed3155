@@ -28,14 +28,40 @@ class User(db.Model):
         self.social = ''
         self.about = ''
 
+
+
+
+
+#Table for tags
+class Tag(db.Model):
+   __tablename__ = 'tags'
+
+   tag_id = db.Column(db.Integer, primary_key=True)
+   tagname = db.Column(db.String, nullable=False)
+
+   def __init__(self, tag_id, tagname):
+       self.tag_id = tag_id
+       self.tagname = tagname
+
+
+
 # # Junction table for the n:n relationship b/w users and recipes
 # bookmarks = db.Table(
 #     'bookmarks',
 #     db.Column('user_id', db.Integer, \
-#               db.ForeignKey('user.user_id'), primary_key=True),
+#               db.ForeignKey('users.user_id'), primary_key=True),
 #     db.Column('tag_id', db.Integer, \
-#               db.ForeignKey('recipe.recipe_id'), primary_key=True)
+#               db.ForeignKey('recipes.recipe_id'), primary_key=True)
 # )
+
+# Junction table for the n:n relationship b/w recipes and tags
+recipe_tag = db.Table(
+   'recipe_tag',
+   db.Column('recipe_id', db.Integer, \
+             db.ForeignKey('recipes.recipe_id'), primary_key=True),
+   db.Column('tag_id', db.Integer, \
+             db.ForeignKey('tags.tag_id'), primary_key=True)
+)
 
 # Table for recipes
 class Recipe(db.Model):
@@ -52,13 +78,12 @@ class Recipe(db.Model):
     recipe_image = db.Column(db.String, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.String, db.ForeignKey('users.user_id'), nullable=False)
-
-
+    tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes')
     #bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
 
 
     def __init__\
-        (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted,user_id) -> None:
+        (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted,user_id,tags) -> None:
         self.title = title
         self.is_vegan = is_vegan
         self.ingredients = ingredients
@@ -69,12 +94,14 @@ class Recipe(db.Model):
         self.recipe_image = recipe_image
         self.date_posted = date_posted
         self.user_id = user_id
+        self.tags = tags
+
 
 #class user_recipe_comment(db.Model):
 #    __tablename__ = 'user_recipe_comments'
 
-#    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), primary_key=True)
-#    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.recipe_id'), primary_key=True)
+#    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
+#    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), primary_key=True)
 #    comment = db.Column(db.String, nullable=False)
 
 #    def __init__(self, user_id, recipe_id, comment):
@@ -82,25 +109,5 @@ class Recipe(db.Model):
 #        self.recipe_id = recipe_id
 #        self.comment = comment
 
-# Junction table for the n:n relationship b/w recipes and tags
-#recipe_tag = db.Table(
-#    'recipe_tag',
-#    db.Column('recipe_id', db.Integer, \
-#              db.ForeignKey('recipe.recipe_id'), primary_key=True),
-#    db.Column('tag_id', db.Integer, \
-#              db.ForeignKey('tag.tag_id'), primary_key=True)
-#)
 
-# Table for tags
-#class Tag(db.Model):
-#    __tablename__ = 'tags'
-#
-#    tag_id = db.Column(db.Integer, primary_key=True)
-#    tag = db.Column(db.String, nullable=False)
-
-#    recipes = db.relationship('Recipe', secondary=recipe_tag, backref='tags')
-
-#    def __init__(self, tag_id, tag):
-#        self.tag_id = tag_id
-#        self.tag = tag
 

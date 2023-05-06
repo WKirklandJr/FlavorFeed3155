@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container p-3 mt-4">
-  
+
   <form method="post" action="/recipes/{{recipe.recipe_id}}/edit" enctype="multipart/form-data">
     <div class="form-group d-flex flex row justify-content-between">
       <div class="mb-4 ml-3">
@@ -16,7 +16,7 @@
 
     <div class="">
       <div> <label for="recipe_image">Image:</label>
-        <input type="file" class="form-control-file" id="recipe_image" name="recipe_image">
+        <input type="file" class="form-control-file" id="recipe_image" name="recipe_image" value="{{recipe.recipe_image}}">
       </div>
 
     </div>
@@ -59,6 +59,15 @@
     <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="is_vegan" name="is_vegan" value="{{recipe.is_vegan}}">
       <label class="form-check-label" for="is_vegan">Vegan</label>
+    </div>
+
+
+    <div class="form-group">
+      <div class="d-flex flex-row"> <label for="tags">Recipe Tags: <p class="text-secondary">(5 tags max, use commas to
+            separate)</p></label>
+      </div>
+
+      <input type="text" class="form-control" id="tags" name="tags" value="{{recipe.tags|join(',', attribute='tagname')}}">
     </div>
 
     <div class="form-row">

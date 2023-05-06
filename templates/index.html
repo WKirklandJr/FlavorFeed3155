@@ -9,11 +9,14 @@
 
         <div class="list-group list-group-flush mx-3 mt-3">
 
+            {% if username is none %}
 
+
+            {% else %}
             <h3><a class="purelink text-light text-uppercase"  href="/users/{{user_id['user_id']}}"> {{username['username']}}</a></h3>
 
             <hr class="m-0 ml-5 pl-4 mb-2" style="width: 45%; border-width: 2px; border-color: #ffc107;">
-
+            {% endif %}
             <a href="#" class="purelink pl-4 mb-1 mt-3 text-secondary">
                 <h5>YOUR POSTS</h5>
             </a>
@@ -39,7 +42,7 @@
 
     <div class="container home-post-feed p-3" style="width: 100%;">
 
-        <!-- POST TEMPLATE, NOT FUNCTIONAL-->
+        <!-- POST TEMPLATE, Iterates through all posts-->
 
         
         {% for recipe in recipes|reverse %}
@@ -81,12 +84,16 @@
                 
                 <div class="d-flex px-4">
                     <div class="rounded-circle bg-light mr-2 post-user-ava"><img class=" " src="" alt=""></div> by <a
-                        class="text-warning pl-1" href="#">
-                        {user} </a>
+                        class="text-warning pl-1" href="#">{user} </a>
                 </div>
 
                 <div class="d-flex mt-auto p-3 justify-content-between">
-                    <div><a href="#" class="badge badge-warning">post tag</a></div>
+                    
+                    <div>{% for tag in recipe.tags%}
+                        <a href="#" class="badge badge-warning">{{tag.tagname}}</a>
+                        {% endfor %}
+                    </div>
+
                     <div><a href="#" class="text-secondary"><span
                                 class="material-symbols-outlined">chat_bubble</span></a>
                         <a href="#" class="text-secondary"><span class="material-symbols-outlined">

@@ -5,22 +5,26 @@
 
 {% block body %}
 <div class="d-flex flex-row ">
-    <div class="user-panel mt-4 p-3 col-2 d-flex flex-column">
+    <div class="user-panel ml-3 mt-4 p-3 col d-flex flex-column">
         <div class="mb-2" style="width: 100px; height: 100px;"><img  style="width: 100px; height: 100px;" src="/static/profile-images/{{author.profile_picture}}" alt=""></div>
         <div><a class="text-warning" href="/users/{{author.user_id}}">{{author.username}}</a></div>
 
 
         <div class="text-secondary small mb-3">{{author.skill}}</div>
 
-        <div class="strong"> [<!--ADD POST NUMBER-->] posts <br>
-            [<!--TODO: ADD COMMENT NUMBER-->] comments</div>
+
+<!--- RECIPE TAGS ----->
+        <div class="h5 mt-3" > Recipe Tags</div>
+        <div class="ml-3" style="width: 120px;">
 
 
-        <div class="h5" mt-3> Recipe Tags</div>
+            {% for tag in recipe.tags %}
+            <a class="badge badge-warning" href="">
+                {{tag.tagname}}
+            </a>
+            {% endfor %}
+        </div>
 
-
-        <div></div>
-        <a class="" href=""></a>
     </div>
 
 
@@ -52,11 +56,8 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
             <div class="p-2 col-3 d-flex flex-row justify-content-end">
                 <div class=" align-self-end">
-                    <h4><span class="badge badge-success ">VEGAN</span></h5>
+                    <h4><span class="badge badge-success ">VEGAN</span></h4>
                 </div>
-                <!-- <div class=" align-self-end">
-                    <div class="badge badge-info">Gluten free!</div>
-                </div> -->
             </div>
             {% else %}
             <div class="p-2 col-3 d-flex flex-row justify-content-end"></div>

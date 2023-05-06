@@ -6006,6 +6006,29 @@ a.badge-dark:focus {
 }
 
 
+
+.query-post {
+
+    display: block;
+    height: 250px;
+    width: 20%;
+}
+
+.query-postcard {
+    background-color: #4D2E31;
+    margin: auto;
+    height: 250px;
+    box-shadow: 0 .5em .5em #00000040;
+
+
+}
+
+.query-postcard-image {
+   
+    max-height: 150px;
+}
+
+
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 2rem;

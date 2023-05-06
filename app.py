@@ -55,7 +55,7 @@ def getuserID():
 @app.get('/')
 def index():    
     all_recipes = recipe_repository_singleton.get_all_recipes()
-
+    
     return render_template('index.html', recipes=all_recipes )
 
 
@@ -140,6 +140,10 @@ def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     author_info = User.query.filter_by(user_id = single_recipe.user_id).first()
+
+
+
+
     return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info)
 
 @app.get('/recipes/<int:recipe_id>/edit')
@@ -274,12 +278,18 @@ def update_recipe(recipe_id):
 
 
 @app.post('/recipes/<int:recipe_id>/delete')
-def delete_recipe():
+def delete_recipe(recipe_id):
     recipe_repository_singleton.delete_recipe(recipe_id)
     return redirect('/recipes')
 
+#---------- RECIPE COMMENTS
+@app.post('/recipes/<int:recipe_id>')
+def post_comment(recipe_id):
+    #TODO: request.form.get comment data and publish a post on the recipe page
+    # use the article below for help:
+    # https://www.digitalocean.com/community/tutorials/how-to-use-many-to-many-database-relationships-with-flask-sqlalchemy
 
-
+    return redirect(f'/recipes/{recipe_id}')
 
 
 

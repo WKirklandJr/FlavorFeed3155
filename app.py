@@ -282,6 +282,8 @@ def delete_recipe(recipe_id):
     recipe_repository_singleton.delete_recipe(recipe_id)
     return redirect('/recipes')
 
+
+
 #---------- RECIPE COMMENTS
 @app.post('/recipes/<int:recipe_id>')
 def post_comment(recipe_id):
@@ -292,6 +294,11 @@ def post_comment(recipe_id):
     return redirect(f'/recipes/{recipe_id}')
 
 
+#-------------- RECIPE TAGS
+@app.get('/search/<tagname>')
+def search_tag(tagname):
+    tag = Tag.query.filter_by(tagname=tagname).first_or_404()
+    return render_template('search_posts.html', tag=tag)
 
 
 #-------------- USER PAGES

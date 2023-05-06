@@ -23,7 +23,7 @@
         <div class="d-flex px-3 pt-2 flex-row justify-content-between">
             <div class="d-flex flex row">
                 <!--RECIPE NAME-->
-                <div class="h4 m-0 pl-2 "><a class="text-light purelink" href="/recipes/{{recipe.recipe_id}}">{{recipe.title}}
+                <div class="h5 m-0 pl-2"><a class="text-light purelink " href="/recipes/{{recipe.recipe_id}}">{{recipe.title|truncate(17,true, '...')}}
 
                     </a></div>
 
@@ -37,10 +37,10 @@
             </div>
 
             <!--DURATION TIME-->
-            <div class="d-flex flex row p-2"> <span style="font-size: 18px;" class="material-symbols-outlined text-warning px-2">
+            <div class="d-flex flex row p-2 align-self-start"> <span style="font-size: 18px;" class="material-symbols-outlined text-warning px-2">
                     nest_clock_farsight_analog
                 </span>
-                <div>{{recipe.duration}} mins </div>
+                <div>{{recipe.duration}} m </div>
             </div>
         </div>
  
@@ -52,11 +52,11 @@
         <div class="d-flex mt-auto p-3 justify-content-between">
             
             <div>{% for tag in recipe.tags%}
-                <a href="#" class="badge badge-warning">{{tag.tagname}}</a>
+                <a href="{{ url_for('search_tag', tagname=tag.tagname)}}" class="badge badge-warning">{{tag.tagname}}</a>
                 {% endfor %}
             </div>
 
-            <div><a href="#" class="text-secondary"><span
+            <div class="align-self-start"><a href="#" class="text-secondary align"><span
                         class="material-symbols-outlined">chat_bubble</span></a>
                 <a href="#" class="text-secondary"><span class="material-symbols-outlined">
                         more_horiz

@@ -60,7 +60,7 @@
                 <div class="d-flex px-3 pt-2 flex-row justify-content-between">
                     <div class="d-flex flex row">
                         <!--RECIPE NAME-->
-                        <div class="h2 m-0 pl-2 "><a class="text-light purelink" href="/recipes/{{recipe.recipe_id}}">{{recipe.title}}
+                        <div class="h2 m-0 pl-2 "><a class="text-light purelink" href="/recipes/{{recipe.recipe_id}}">{{recipe.title|truncate(23,true, '...')}}
 
                             </a></div>
 
@@ -90,7 +90,7 @@
                 <div class="d-flex mt-auto p-3 justify-content-between">
                     
                     <div>{% for tag in recipe.tags%}
-                        <a href="#" class="badge badge-warning">{{tag.tagname}}</a>
+                        <a href="{{ url_for('search_tag', tagname=tag.tagname)}}" class="badge badge-warning">{{tag.tagname}}</a>
                         {% endfor %}
                     </div>
 

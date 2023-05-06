@@ -5,22 +5,27 @@
 
 {% block body %}
 <div class="d-flex flex-row ">
-    <div class="user-panel mt-4 p-3 col-2 d-flex flex-column">
-        <div class="mb-2" style="width: 100px; height: 100px;"><img  style="width: 100px; height: 100px;" src="/static/profile-images/{{author.profile_picture}}" alt=""></div>
+    <div class="user-panel ml-3 mt-4 p-3 col d-flex flex-column">
+        <div class="mb-2" style="width: 100px; height: 100px;"><img style="width: 100px; height: 100px;"
+                src="/static/profile-images/{{author.profile_picture}}" alt=""></div>
         <div><a class="text-warning" href="/users/{{author.user_id}}">{{author.username}}</a></div>
 
 
         <div class="text-secondary small mb-3">{{author.skill}}</div>
 
-        <div class="strong"> [<!--ADD POST NUMBER-->] posts <br>
-            [<!--TODO: ADD COMMENT NUMBER-->] comments</div>
+
+        <!--- RECIPE TAGS ----->
+        <div class="h5 mt-3"> Recipe Tags</div>
+        <div class="ml-3" style="width: 120px;">
 
 
-        <div class="h5" mt-3> Recipe Tags</div>
+            {% for tag in recipe.tags %}
+            <a class="badge badge-warning" href="{{ url_for('search_tag', tagname=tag.tagname) }}">
+                {{tag.tagname}}
+            </a>
+            {% endfor %}
+        </div>
 
-
-        <div></div>
-        <a class="" href=""></a>
     </div>
 
 
@@ -45,18 +50,16 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
                 </div>
             </div>
-            <div class="p-2 col-3 align-self-end text-secondary"> {{recipe.date_posted.strftime('%a, %b %d %Y, @ %I:%M:%S %p')}}</div>
+            <div class="p-2 col-3 align-self-end text-secondary"> {{recipe.date_posted.strftime('%a, %b %d %Y, @
+                %I:%M:%S %p')}}</div>
 
             <!--SHOW AND HIDE IF VEGAN IS CHECKED-->
             {% if recipe.is_vegan %}
 
             <div class="p-2 col-3 d-flex flex-row justify-content-end">
                 <div class=" align-self-end">
-                    <h4><span class="badge badge-success ">VEGAN</span></h5>
+                    <h4><span class="badge badge-success ">VEGAN</span></h4>
                 </div>
-                <!-- <div class=" align-self-end">
-                    <div class="badge badge-info">Gluten free!</div>
-                </div> -->
             </div>
             {% else %}
             <div class="p-2 col-3 d-flex flex-row justify-content-end"></div>
@@ -65,36 +68,37 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
         </div>
         <div class="d-flex flex-row ">
             <!--IMAGE--------->
-            <div class="rounded" style="width: 850px; height: 400px; overflow: hidden; background-color: beige;"><img src="../static/post-images/{{recipe.recipe_image}}" style="width: 100%; " alt=""> </div>
-            
+            <div class="rounded" style="width: 850px; height: 400px; overflow: hidden; background-color: beige;"><img
+                    src="../static/post-images/{{recipe.recipe_image}}" style="width: 100%; " alt=""> </div>
+
             <!------------WHAT YOU NEED-------------->
             <div class="d-flex flex-column">
                 <div class="h5 pl-3">What You Need</div>
                 <div class="ml-3 rounded"
                     style="width: 280px; height: 370px; background-color: black; overflow-y: auto;">
                     <div class="ml-3">
-                    <div class="text-red p-2 mt-3" style="font-size: 1.1em;"><b>Equipment</b></div>
-                    <ul>
-                        <!-- Loop to separate string into list-->
-                        {% set equipmentlist = recipe.equipment.split(',') %}
-                        {% for item in equipmentlist %}
-                        <li>
-                            <div class="">{{item}}</div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="text-red p-2 mt-3 " style="font-size: 1.1em;"><b>Ingredients</b></div>
+                        <div class="text-red p-2 mt-3" style="font-size: 1.1em;"><b>Equipment</b></div>
+                        <ul>
+                            <!-- Loop to separate string into list-->
+                            {% set equipmentlist = recipe.equipment.split(',') %}
+                            {% for item in equipmentlist %}
+                            <li>
+                                <div class="">{{item}}</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="text-red p-2 mt-3 " style="font-size: 1.1em;"><b>Ingredients</b></div>
 
-                    <ul>
-                        <!-- Loop to separate string into list-->
-                        {% set ingredientslist = recipe.ingredients.split(',') %}
-                        {% for item in ingredientslist %}
-                        <li>
-                            <div class="">{{item}}</div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                        <ul>
+                            <!-- Loop to separate string into list-->
+                            {% set ingredientslist = recipe.ingredients.split(',') %}
+                            {% for item in ingredientslist %}
+                            <li>
+                                <div class="">{{item}}</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,13 +119,50 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
             </div>
         </div>
         <hr class="m-0 mb-1" style="border-color: antiquewhite;">
-        <div class="p-3"><p>{{recipe.instructions}}</p></div>
+        <div class="p-3">
+            <p>{{recipe.instructions}}</p>
+        </div>
 
     </div>
 
 
 </div>
 
-<!--COMMENTS-->
 
+<!--COMMENTS-->
+<div class="m-2">
+
+    <hr class=" m-0 mt-1" style="border:solid 1px #221f1f;">
+    <div class="p-3 ml-4">
+        <h3>COMMENTS</h3>
+    </div>
+
+    <div class="d-flex flex-row justify-content-center ">
+        <form method="post" action="/recipes/{{recipe.recipe_id}}">
+            <div class="px-3">
+                <div class="form-group">
+                    <textarea class="rounded form-control-user" name="comment" id="comment" cols="100"
+                        placeholder="Write a comment..."></textarea>
+
+                </div>
+                <div class="d-flex flex-row justify-content-end">
+                    <button type="submit" class="btn btn-warning mb-3">POST COMMENT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<!---TODO: generate a for loop for comments on post--->
+
+    <div class="ml-5" style="background-color: rgba(0, 0, 0, 0.1);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
+        <div class="p-3 h5"> <a class="text-secondary" href="#">{user}</a> </div>
+
+        <div class="m-3 ml-5 " style="border-left: solid 1px;">
+            <div class="p-3">{comment text}</div>
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}

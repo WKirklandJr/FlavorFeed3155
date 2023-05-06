@@ -1,4 +1,4 @@
-from src.models import db, Recipe
+from src.models import db, Recipe, Tag
 
 
 class RecipeRepository:
@@ -13,13 +13,15 @@ class RecipeRepository:
         return get_recipe
 
     def create_recipe(self, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image, date_posted, user_id):
+        
         # Update parameters as new variables are implemented
         create_recipe = Recipe(title, is_vegan, ingredients, equipment,
-                               duration, difficulty, instructions, recipe_image, date_posted, user_id)
+                               duration, difficulty, instructions, recipe_image, date_posted, user_id)     
         db.session.add(create_recipe)
-        db.session.commit()
+        
         return create_recipe
 
+        
     def update_recipe(self, recipe_id, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image):
         update_recipe = Recipe.query.get(recipe_id)
         update_recipe.title = title
@@ -30,7 +32,7 @@ class RecipeRepository:
         update_recipe.difficulty = difficulty
         update_recipe.instructions = instructions
         update_recipe.recipe_image = recipe_image
-        db.session.commit()
+
         return update_recipe
 
     def delete_recipe(recipe_id):

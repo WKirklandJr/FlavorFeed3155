@@ -25,7 +25,7 @@ recipe_image VARCHAR(255) NOT NULL,
 date_posted TIMESTAMP NOT NULL,
 user_id INT NULL,
 PRIMARY KEY (recipe_id),
-FOREIGN KEY (user_id) REFERENCES users(user_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 -- n:n relationship b/w users and recipes

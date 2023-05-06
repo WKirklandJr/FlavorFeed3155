@@ -1,5 +1,5 @@
 from flask import Blueprint, session, render_template, request, redirect, abort
-from src.models import db, User
+from src.models import db
 from src.repositories.user_repository import user_repository_singleton
 from werkzeug.utils import secure_filename
 import os
@@ -13,7 +13,10 @@ def get_edit_profile(user_id):
     if 'user' not in session:
         return redirect('/login')
     
-    session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first()
+    #session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first()
+
+    username = session.get('user')['username']
+    session_user = user_repository_singleton.get_user_by_username(username)
     user_id = session_user.user_id
 
     if user_id != session_user.user_id:

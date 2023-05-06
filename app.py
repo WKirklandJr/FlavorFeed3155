@@ -2,9 +2,12 @@ from flask import Flask, session, redirect, render_template, request, abort
 from dotenv import load_dotenv
 import os, functools
 
-from src.models import db, Tag
+from src.models import db
 from security import bcrypt
+
+# Repositories
 from src.repositories.user_repository import user_repository_singleton
+from src.repositories.tags_repository import tag_repository_singleton
 
 # Routers
 from src.routers.home_router import home_router
@@ -56,18 +59,16 @@ app.register_blueprint(home_router)
 # RECIPES PAGES
 app.register_blueprint(recipes_router)
 
-#-------------- RECIPE TAGS
+# RECIPE TAGS
 @app.get('/search/<tagname>')
 def search_tag(tagname):
-    tag = Tag.query.filter_by(tagname=tagname).first_or_404()
+    tag = tag_repository_singleton.get_tag(tagname)
     return render_template('search_posts.html', tag=tag)
 
-#-------------- USER PAGES
+# USER PAGES
 @app.get('/users/<int:user_id>')
 def get_user(user_id):
-
     single_user = user_repository_singleton.get_user_by_id(user_id)
-
     return render_template('get_single_profile.html', user=single_user)
 
 # PROFILE PAGES

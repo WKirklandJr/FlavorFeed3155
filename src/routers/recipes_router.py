@@ -24,7 +24,10 @@ def get_recipe(recipe_id):
     author_info = user_repository_singleton.get_user_by_recipe(single_recipe)
     recipe_comments = comment_repository_singleton.get_comment_by_recipe_id(recipe_id)
 
-    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments)
+    for comment in recipe_comments:
+        comment_author = user_repository_singleton.get_user_by_comment(comment) 
+
+    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments, commentsuser=comment_author)
 
 # GET new recipe
 @recipes_router.get('/new')
@@ -174,6 +177,6 @@ def post_comment(recipe_id):
     if not data:
         abort(400)
 
-    comment = comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
+    comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
 
     return redirect(f'/recipes/{recipe_id}')

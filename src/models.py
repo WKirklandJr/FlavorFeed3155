@@ -95,7 +95,7 @@ class Recipe(db.Model):
 
 
 
-class user_recipe_comment(db.Model):
+class Comment(db.Model):
     __tablename__ = 'user_recipe_comments'
 
     comment_id = db.Column(db.Integer, primary_key=True)

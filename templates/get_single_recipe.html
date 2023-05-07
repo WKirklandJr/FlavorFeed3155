@@ -152,21 +152,20 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
         </form>
     </div>
 
-<!---TODO: generate a for loop for comments on post--->
-
-    <div class="ml-5" style="background-color: rgba(0, 0, 0, 0.1);
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
-        <div class="p-3 h5"> <a class="text-secondary" href="#">{user}</a> </div>
+    <!---TODO: generate a for loop for comments on post--->
+    {% if (comments)%}
+    {% for comment in comments %}
+    <div class="ml-5" style="background-color: rgba(0, 0, 0, 0.1); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
+        <div class="p-3 h5"> <a class="text-secondary" href="/users/{{commentsuser.user_id}}">{{commentsuser.username}}</a> </div>
 
         <div class="m-3 ml-5 " style="border-left: solid 1px;">
-            {% if (comments)%}
-            {% for comment in comments %}
+
             <div class="p-3">{{comment.comment}}</div>
-            {% endfor %}
-            {% endif %}
+
         </div>
 
     </div>
-
+    {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

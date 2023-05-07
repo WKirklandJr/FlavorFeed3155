@@ -33,11 +33,11 @@ class RecipeRepository:
 
         return update_recipe
 
-    def delete_recipe(recipe_id):
+    def delete_recipe(self, recipe_id):
         # TODO: delete a specific recipe in the db
-        recipe_to_delete = Recipe.query.get_or_404(recipe_id)
+        recipe_to_delete = Recipe.query.filter_by(recipe_id = recipe_id).first_or_404()
         db.session.delete(recipe_to_delete)
-        db.sesion.commit()
+        db.session.commit()
         return recipe_to_delete
 
 # Singleton: Restricts the instantiation of a class to a single instance

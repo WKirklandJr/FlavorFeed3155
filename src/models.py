@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
+
 db = SQLAlchemy()
 
 # Table for users
@@ -14,7 +16,7 @@ class User(db.Model):
     skill = db.Column(db.String, nullable=True)
     social = db.Column(db.String, nullable=True)
     about = db.Column(db.String, nullable=True) 
-    recipes = db.relationship('Recipe', backref='author')
+    recipes = db.relationship('Recipe', backref='author', passive_deletes=True)
 
 
     
@@ -26,8 +28,6 @@ class User(db.Model):
         self.skill = ''
         self.social = ''
         self.about = ''
-
-
 
 
 
@@ -56,9 +56,9 @@ bookmarks = db.Table(
 recipe_tag = db.Table(
    'recipe_tag',
    db.Column('recipe_id', db.Integer, \
-             db.ForeignKey('recipes.recipe_id'), primary_key=True),
+             db.ForeignKey('recipes.recipe_id', ondelete='CASCADE'), primary_key=True),
    db.Column('tag_id', db.Integer, \
-             db.ForeignKey('tags.tag_id'), primary_key=True)
+             db.ForeignKey('tags.tag_id', ondelete='CASCADE'), primary_key=True)
 )
 
 # Table for recipes
@@ -75,8 +75,8 @@ class Recipe(db.Model):
     instructions = db.Column(db.String, nullable=False)
     recipe_image = db.Column(db.String, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.String, db.ForeignKey('users.user_id'), nullable=False)
-    tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes')
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id',  ondelete='CASCADE'), nullable=False)
+    tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes', passive_deletes=True)
     #bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
 
 

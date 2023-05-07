@@ -30,11 +30,12 @@ FOREIGN KEY (user_id) REFERENCES users(user_id),
 
 -- n:n relationship b/w users and recipes
 CREATE TABLE IF NOT EXISTS bookmarks (
-    user_id INT,
-    recipe_id INT,
+    user_id INT REFERENCES users(user_id),
+    recipe_id INT REFERENCES recipes(recipe_id),
+
     PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
-    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id)
+    FOREIGN KEY(user_id) ,
+    FOREIGN KEY(recipe_id) 
 );
 
 -- table for tags

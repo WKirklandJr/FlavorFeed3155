@@ -5,12 +5,16 @@
 {% block body %}
 <div class="container p-3 mt-4">
 
+<form action="">
+  <div class=" mt-2"><a href="/recipes/{{recipe.recipe_id}}/delete" class="btn btn-danger bg-red">DELETE POST</a></div>
+
+</form>
+
   <form method="post" action="/recipes/{{recipe.recipe_id}}/edit" enctype="multipart/form-data">
     <div class="form-group d-flex flex row justify-content-between">
       <div class="mb-4 ml-3">
         <h2>EDIT RECIPE</h2>
       </div>
-      <div class=" mt-2"><a href="/recipes/{{recipe.recipe_id}}/delete" class="btn btn-danger bg-red">DELETE POST</a></div>
     </div>
 
 

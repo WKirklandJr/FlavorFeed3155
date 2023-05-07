@@ -20,7 +20,7 @@
 
 
             {% for tag in recipe.tags %}
-            <a class="badge badge-warning" href="{{ url_for('search_tag', tagname=tag.tagname) }}">
+            <a class="badge badge-warning" href="{{ url_for('search_tag', tagname=tag.tagname)}}">
                 {{tag.tagname}}
             </a>
             {% endfor %}
@@ -43,11 +43,11 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
             <div class="d-flex flex-row col-6">
                 <h2 class="">{{ recipe.title }}</h2>
 
-                <div class="p-2">
-                    <button class="btn p-0 lg">
+
+                <div class="p-2 d-flex flex-row align-self-end">
+                    <button class="btn p-0">
                         <span class="material-symbols-outlined text-red">bookmark</span>
                     </button> <span class="text-red"># <!-- TODO: POST BOOKMARK VALUE--></span>
-
                 </div>
             </div>
             <div class="p-2 col-3 align-self-end text-secondary"> {{recipe.date_posted.strftime('%a, %b %d %Y, @
@@ -56,9 +56,9 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
             <!--SHOW AND HIDE IF VEGAN IS CHECKED-->
             {% if recipe.is_vegan %}
 
-            <div class="p-2 col-3 d-flex flex-row justify-content-end">
-                <div class=" align-self-end">
-                    <h4><span class="badge badge-success ">VEGAN</span></h4>
+            <div class="p-2 col-3 d-flex flex-row justify-content-center">
+                <div class=" align-self-end ml-5">
+                    <h3><span class="badge badge-success ">VEGAN</span></h3>
                 </div>
             </div>
             {% else %}

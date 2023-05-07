@@ -205,13 +205,17 @@ def create_recipe():
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)
     
     for tagname in taglist:  
-        existing_tag = Tag.query.filter_by(tagname = tagname).first()
+        existing_tag = Tag.query.filter_by(tagname = tagname.lower()).first()
 
         if existing_tag is not None:     
             created_recipe.tags.append(existing_tag)
 
         if existing_tag is None:
-            created_recipe.tags.append(Tag(tagname))
+            if tagname[0] == ' ':
+                cropped_tag = tagname[1:]
+                created_recipe.tags.append(Tag(cropped_tag.lower()))
+            else:
+                created_recipe.tags.append(Tag(tagname.lower()))
                      
     db.session.commit()
 
@@ -259,18 +263,22 @@ def update_recipe(recipe_id):
     updated_recipe = Recipe.query.filter_by(recipe_id = recipe_id).first()
     
     
-    #post_tags = Tag.query.filter_by(db.recipe_tag).all()
-    #update_recipe.tags.remove(post_tags)
+
+    updated_recipe.tags.clear()
 
     for tagname in taglist:  
         
-        existing_tag = Tag.query.filter_by(tagname = tagname).first()
+        existing_tag = Tag.query.filter_by(tagname = tagname.lower()).first()
 
         if existing_tag is not None:     
             updated_recipe.tags.append(existing_tag)
 
         if existing_tag is None:
-            updated_recipe.tags.append(Tag(tagname))
+            if tagname[0] == ' ':
+                cropped_tag = tagname[1:]
+                updated_recipe.tags.append(Tag(cropped_tag.lower()))
+            else:    
+                updated_recipe.tags.append(Tag(tagname.lower()))
                      
     db.session.commit()
 

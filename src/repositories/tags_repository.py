@@ -11,7 +11,7 @@ class TagRepository:
         return create_tag
     
     def get_tag(self, tagname):
-        tag_name = Tag.query.filter_by(tagname=tagname).first_or_404()
+        tag_name = Tag.query.filter_by(tagname=tagname).first()
 
         return tag_name
 

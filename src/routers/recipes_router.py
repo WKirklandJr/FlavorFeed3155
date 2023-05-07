@@ -26,8 +26,9 @@ def get_recipe(recipe_id):
 
     for comment in recipe_comments:
         comment_author = user_repository_singleton.get_user_by_comment(comment) 
+        return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments, commentsuser=comment_author)
 
-    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments, commentsuser=comment_author)
+    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments)
 
 # GET new recipe
 @recipes_router.get('/new')

@@ -47,9 +47,9 @@ class Tag(db.Model):
 bookmarks = db.Table(
     'bookmarks',
     db.Column('user_id', db.Integer, \
-              db.ForeignKey('users.user_id'), primary_key=True),
+              db.ForeignKey('users.user_id', ondelete='CASCADE'), primary_key=True),
     db.Column('tag_id', db.Integer, \
-              db.ForeignKey('recipes.recipe_id'), primary_key=True)
+              db.ForeignKey('recipes.recipe_id', ondelete='CASCADE'), primary_key=True)
 )
 
 # Junction table for the n:n relationship b/w recipes and tags
@@ -99,8 +99,8 @@ class Comment(db.Model):
     __tablename__ = 'user_recipe_comments'
 
     comment_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', ondelete='CASCADE'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id', ondelete='CASCADE'))
     comment = db.Column(db.String, nullable=False)
 
     def __init__(self, user_id, recipe_id, comment):

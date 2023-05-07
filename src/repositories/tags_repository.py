@@ -5,6 +5,10 @@ class TagRepository:
     
     def get_tag(self, tagname):
         tag_name = Tag.query.filter_by(tagname=tagname).first()
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         return tag_name
 
 tag_repository_singleton = TagRepository()

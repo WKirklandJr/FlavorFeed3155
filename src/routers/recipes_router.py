@@ -3,6 +3,7 @@ from src.models import db, Recipe, Tag, User
 from src.repositories.user_repository import user_repository_singleton
 from src.repositories.recipe_repository import recipe_repository_singleton
 from src.repositories.tags_repository import tag_repository_singleton
+from src.repositories.comment_repository import comment_repository_singleton
 from werkzeug.utils import secure_filename
 import os, datetime
 
@@ -21,8 +22,9 @@ def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     author_info = user_repository_singleton.get_user_by_recipe(single_recipe)
+    recipe_comments = comment_repository_singleton.get_comment_by_recipe_id(recipe_id)
 
-    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info)
+    return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments)
 
 # GET new recipe
 @recipes_router.get('/new')
@@ -30,7 +32,7 @@ def create_recipe_page():
     return render_template('create_recipe.html')
 
 # POST new recipe
-@recipes_router.post('')
+@recipes_router.post('/new')
 def create_recipe():
     # Get variables from form
     is_vegan = bool(request.form.get('is_vegan'))
@@ -162,10 +164,16 @@ def delete_recipe(recipe_id):
     return redirect('/recipes')
 
 #---------- RECIPE COMMENTS
-@recipes_router.post('<int:recipe_id>/comment')
+@recipes_router.post('/<int:recipe_id>/comment')
 def post_comment(recipe_id):
-    #TODO: request.form.get comment data and publish a post on the recipe page
-    # use the article below for help:
-    # https://www.digitalocean.com/community/tutorials/how-to-use-many-to-many-database-relationships-with-flask-sqlalchemy
+    if 'user' not in session:
+        return redirect('/login')
+    
+    data = request.form.get('comment')
+
+    if not data:
+        abort(400)
+
+    comment = comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
 
     return redirect(f'/recipes/{recipe_id}')

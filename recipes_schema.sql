@@ -56,10 +56,11 @@ CREATE TABLE IF NOT EXISTS recipe_tag (
 
 -- n:n relationship b/w users and recipes
 CREATE TABLE IF NOT EXISTS user_recipe_comments (
+    comment_id SERIAL NOT NULL,
     user_id INT,
     recipe_id INT,
     comment TEXT NOT NULL,
-    PRIMARY KEY (user_id, recipe_id),
+    PRIMARY KEY (comment_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id),
     FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id)
 );

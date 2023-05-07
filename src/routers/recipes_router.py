@@ -1,6 +1,8 @@
 from flask import Blueprint, session, render_template, request, redirect, abort
-from src.models import db, User, Recipe, Tag
+from src.models import db, Recipe, Tag
+from src.repositories.user_repository import user_repository_singleton
 from src.repositories.recipe_repository import recipe_repository_singleton
+from src.repositories.tags_repository import tag_repository_singleton
 from werkzeug.utils import secure_filename
 import os, datetime
 
@@ -17,7 +19,7 @@ def recipes():
 def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
-    author_info = User.query.filter_by(user_id = single_recipe.user_id).first()
+    author_info = user_repository_singleton.get_user_by_recipe(single_recipe)
 
     return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info)
 
@@ -70,7 +72,7 @@ def create_recipe():
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)
     
     for tagname in taglist:  
-        existing_tag = Tag.query.filter_by(tagname = tagname).first()
+        existing_tag = tag_repository_singleton.get_tag(tagname)
 
         if existing_tag is not None:     
             created_recipe.tags.append(existing_tag)
@@ -85,7 +87,6 @@ def create_recipe():
 # GET edit recipe
 @recipes_router.get('/<int:recipe_id>/edit')
 def get_edit_recipe(recipe_id):
-
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     return render_template('edit_recipe.html', recipe=single_recipe)
 
@@ -130,8 +131,7 @@ def update_recipe(recipe_id):
     #update_recipe.tags.remove(post_tags)
 
     for tagname in taglist:  
-        
-        existing_tag = Tag.query.filter_by(tagname = tagname).first()
+        existing_tag = tag_repository_singleton.get_tag(tagname)
 
         if existing_tag is not None:     
             updated_recipe.tags.append(existing_tag)

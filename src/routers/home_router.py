@@ -1,5 +1,6 @@
 from flask import Blueprint, session, render_template, request, redirect, abort
-from src.models import db, User
+from src.models import db
+from src.repositories.user_repository import user_repository_singleton
 from src.repositories.recipe_repository import recipe_repository_singleton
 from security import bcrypt
 
@@ -37,7 +38,7 @@ def signup():
 
     hashed_password = bcrypt.generate_password_hash(password).decode()
 
-    new_user = User(email, username, hashed_password)
+    new_user = user_repository_singleton.create_user(email, username, hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
@@ -60,7 +61,7 @@ def login():
     if not username or not password:
         abort(400)
 
-    existing_user = User.query.filter_by(username=username).first()
+    existing_user = user_repository_singleton.get_user_by_username(username)
 
     if not existing_user:
         return redirect('/login')

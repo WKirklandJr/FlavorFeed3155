@@ -1,5 +1,4 @@
-from src.models import db, Recipe, Tag
-
+from src.models import db, Recipe
 
 class RecipeRepository:
 
@@ -21,7 +20,6 @@ class RecipeRepository:
         
         return create_recipe
 
-        
     def update_recipe(self, recipe_id, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image):
         update_recipe = Recipe.query.get(recipe_id)
         update_recipe.title = title
@@ -41,7 +39,6 @@ class RecipeRepository:
         db.session.delete(recipe_to_delete)
         db.sesion.commit()
         return recipe_to_delete
-
 
 # Singleton: Restricts the instantiation of a class to a single instance
 recipe_repository_singleton = RecipeRepository()

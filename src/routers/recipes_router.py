@@ -1,5 +1,5 @@
 from flask import Blueprint, session, render_template, request, redirect, abort
-from src.models import db, Recipe, Tag
+from src.models import db, Recipe, Tag, User
 from src.repositories.user_repository import user_repository_singleton
 from src.repositories.recipe_repository import recipe_repository_singleton
 from src.repositories.tags_repository import tag_repository_singleton
@@ -13,6 +13,7 @@ recipes_router = Blueprint('recipes', __name__, url_prefix='/recipes')
 @recipes_router.get('')
 def recipes():
     all_recipes = recipe_repository_singleton.get_all_recipes()
+    #all_users = user_repository_singleton.get_all_users()
     return render_template('recipes.html', recipes=all_recipes)
 
 # GET single recipe
@@ -22,6 +23,10 @@ def get_recipe(recipe_id):
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     author_info = user_repository_singleton.get_user_by_recipe(single_recipe)
     recipe_comments = comment_repository_singleton.get_comment_by_recipe_id(recipe_id)
+
+    for comment in recipe_comments:
+        comment_author = user_repository_singleton.get_user_by_comment(comment) 
+        return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments, commentsuser=comment_author)
 
     return render_template('get_single_recipe.html', recipe=single_recipe, author=author_info, comments=recipe_comments)
 
@@ -73,15 +78,22 @@ def create_recipe():
     created_recipe = recipe_repository_singleton.create_recipe\
         (title, is_vegan, ingredients, equipment, duration, difficulty, instructions, img_filename, date_posted,user_id)
     
+
     for tagname in taglist:  
+        
         existing_tag = tag_repository_singleton.get_tag(tagname)
 
         if existing_tag is not None:     
             created_recipe.tags.append(existing_tag)
 
         if existing_tag is None:
-            created_recipe.tags.append(Tag(tagname))
-                     
+            if tagname[0] == ' ':
+                cropped_tag = tagname[1:]
+                created_recipe.tags.append(Tag(cropped_tag.lower()))
+            else:    
+                created_recipe.tags.append(Tag(tagname.lower()))
+
+
     db.session.commit()
 
     return redirect(f'/recipes/{created_recipe.recipe_id}')
@@ -129,18 +141,23 @@ def update_recipe(recipe_id):
      
     updated_recipe = Recipe.query.filter_by(recipe_id = recipe_id).first()  
     
-    #post_tags = Tag.query.filter_by(db.recipe_tag).all()
-    #update_recipe.tags.remove(post_tags)
-
+    updated_recipe.tags.clear()
+    
     for tagname in taglist:  
+        
         existing_tag = tag_repository_singleton.get_tag(tagname)
 
         if existing_tag is not None:     
             updated_recipe.tags.append(existing_tag)
 
         if existing_tag is None:
-            updated_recipe.tags.append(Tag(tagname))
+            if tagname[0] == ' ':
+                cropped_tag = tagname[1:]
+                updated_recipe.tags.append(Tag(cropped_tag.lower()))
+            else:    
+                updated_recipe.tags.append(Tag(tagname.lower()))
                      
+
     db.session.commit()
 
     return redirect(f'/recipes/{recipe_id}')
@@ -161,6 +178,6 @@ def post_comment(recipe_id):
     if not data:
         abort(400)
 
-    comment = comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
+    comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
 
     return redirect(f'/recipes/{recipe_id}')

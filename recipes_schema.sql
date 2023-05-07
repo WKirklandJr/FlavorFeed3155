@@ -25,16 +25,17 @@ recipe_image VARCHAR(255) NOT NULL,
 date_posted TIMESTAMP NOT NULL,
 user_id INT NULL,
 PRIMARY KEY (recipe_id),
-FOREIGN KEY (user_id) REFERENCES users(user_id)
+FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- n:n relationship b/w users and recipes
 CREATE TABLE IF NOT EXISTS bookmarks (
-    user_id INT,
-    recipe_id INT,
+    user_id INT ,
+    recipe_id INT ,
+
     PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
-    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id)
+    FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id) ON DELETE CASCADE 
 );
 
 -- table for tags
@@ -49,8 +50,8 @@ CREATE TABLE IF NOT EXISTS recipe_tag (
     recipe_id INT,
     tag_id INT,
     PRIMARY KEY (recipe_id, tag_id),
-    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id),
-    FOREIGN KEY(tag_id) REFERENCES tags(tag_id)
+    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY(tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE
 );
 
 -- n:n relationship b/w users and recipes
@@ -60,6 +61,6 @@ CREATE TABLE IF NOT EXISTS user_recipe_comments (
     recipe_id INT,
     comment TEXT NOT NULL,
     PRIMARY KEY (comment_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
-    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id)
+    FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id) ON DELETE CASCADE
 );

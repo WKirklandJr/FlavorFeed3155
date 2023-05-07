@@ -21,6 +21,10 @@ class UserRepository:
     def get_user_by_recipe(self, recipe):
         get_user = User.query.filter_by(user_id = recipe.user_id).first()
         return get_user
+    
+    def get_user_by_comment(self, comment):
+        get_user = User.query.filter_by(user_id = comment.user_id).first()
+        return get_user
 
     def update_user(self, user_id, username , skill, social, about, profile_picture):
         update_user = User.query.get(user_id)

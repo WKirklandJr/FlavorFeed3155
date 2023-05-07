@@ -96,16 +96,14 @@ class Recipe(db.Model):
 
 
 class user_recipe_comment(db.Model):
-   __tablename__ = 'user_recipe_comments'
+    __tablename__ = 'user_recipe_comments'
 
-   user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-   recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), primary_key=True)
-   comment = db.Column(db.String, nullable=False)
+    comment_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+    comment = db.Column(db.String, nullable=False)
 
-   def __init__(self, user_id, recipe_id, comment):
-       self.user_id = user_id
-       self.recipe_id = recipe_id
-       self.comment = comment
-
-
-
+    def __init__(self, user_id, recipe_id, comment):
+        self.user_id = user_id
+        self.recipe_id = recipe_id
+        self.comment = comment

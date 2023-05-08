@@ -14,6 +14,10 @@ class UserRepository:
         get_user = User.query.get(user_id)
         return get_user
     
+    def filter_user_by_id(self, user_id):
+        get_user = User.query.filter_by(user_id=user_id).first()
+        return get_user
+
     def get_user_by_username(self, username):
         get_user = User.query.filter_by(username=username).first()
         return get_user

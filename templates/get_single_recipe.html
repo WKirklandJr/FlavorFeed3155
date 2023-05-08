@@ -45,13 +45,43 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
 
                 <div class="p-2 d-flex flex-row align-self-end">
-                    <button class="btn p-0">
-                        <span class="material-symbols-outlined text-red">bookmark</span>
-                    </button> <span class="text-red"># <!-- TODO: POST BOOKMARK VALUE--></span>
+                                        <!---------BOOKMARK-------->
+                                    {% if username is not none and recipe.bookmark|length > 0 %}
+
+                                    {% for bookmark in recipe.bookmark|selectattr("user_id", "equalto", user_id['user_id'] ) %}                
+                                        {% if bookmark|selectattr("user_id", "equalto", user_id['user_id']) %}
+                                            <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
+                                                <button class="btn p-0">
+                                                    <span class="material-symbols-outlined text-red" style="font-variation-settings:'FILL' 1;">
+                                                        bookmark
+                                                    </span>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        
+                                    {% endfor %}
+                                    {% if recipe.bookmark|selectattr("user_id", "notequal", user_id['user_id']) %}
+                                            <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                                <button type="submit" class="btn p-0">
+                                                <span class="material-symbols-outlined text-red">bookmark</span></button>
+                                            </form>
+                                    {% endif %}
+
+                                    {% else %}
+                                        <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                            <button type="submit" class="btn p-0">
+                                                <span class="material-symbols-outlined text-red">bookmark</span></button>
+                                        </form>
+                                    {% endif %}
+                                    {% if recipe.bookmark|length == 0 %}
+                                        <span class="text-red">0</span>
+                                        {% else %}
+                                        <span class="text-red">{{recipe.bookmark|length}}</span>
+                                    {% endif %}
                 </div>
             </div>
-            <div class="p-2 col-3 align-self-end text-secondary"> {{recipe.date_posted.strftime('%a, %b %d %Y, @
-                %I:%M:%S %p')}}</div>
+            <div class="p-2 col-3 align-self-end text-secondary">
+                {{recipe.date_posted.strftime('%a, %b %d %Y, @ %I:%M:%S %p')}}</div>
 
             <!--SHOW AND HIDE IF VEGAN IS CHECKED-->
             {% if recipe.is_vegan %}
@@ -152,7 +182,7 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
         </form>
     </div>
 
-    <!---TODO: generate a for loop for comments on post--->
+
     {% if (comments)%}
     {% for comment in comments %}
 

@@ -13,7 +13,11 @@ recipes_router = Blueprint('recipes', __name__, url_prefix='/recipes')
 @recipes_router.get('')
 def recipes():
     all_recipes = recipe_repository_singleton.get_all_recipes()
-    #all_users = user_repository_singleton.get_all_users()
+
+    for recipe in all_recipes:
+        recipe_author = user_repository_singleton.get_user_by_recipe(recipe)
+        return render_template('recipes.html', recipes=all_recipes, author=recipe_author)
+
     return render_template('recipes.html', recipes=all_recipes)
 
 # GET single recipe
@@ -22,6 +26,7 @@ def get_recipe(recipe_id):
 
     single_recipe = recipe_repository_singleton.get_recipe_by_id(recipe_id)
     author_info = user_repository_singleton.get_user_by_recipe(single_recipe)
+
     recipe_comments = comment_repository_singleton.get_comment_by_recipe_id(recipe_id)
 
     for comment in recipe_comments:
@@ -181,3 +186,28 @@ def post_comment(recipe_id):
     comment_repository_singleton.create_comment(session['user']['user_id'], recipe_id, data)
 
     return redirect(f'/recipes/{recipe_id}')
+
+#---------- BOOKMARKS
+@recipes_router.post('/<int:recipe_id>/bookmark')
+def bookmark_post(recipe_id):
+    
+    if 'user' not in session:
+        return redirect('/login')
+    
+    current_recipe = recipe_repository_singleton.filter_recipe_by_id(recipe_id)
+    get_user = user_repository_singleton.filter_user_by_id(session['user']['user_id'])
+    current_recipe.bookmark.append(get_user)
+
+
+    db.session.commit()
+    return redirect(f'/recipes/{recipe_id}')
+
+@recipes_router.post('/<int:recipe_id>/unbookmark')
+def unbookmark_post(recipe_id):
+    
+    current_recipe = recipe_repository_singleton.filter_recipe_by_id(recipe_id)
+    get_user = user_repository_singleton.filter_user_by_id(session['user']['user_id'])
+    current_recipe.bookmark.remove(get_user)
+    db.session.commit()
+    return redirect(f'/recipes/{recipe_id}')
+

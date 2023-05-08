@@ -10,8 +10,41 @@ home_router = Blueprint('home', __name__, url_prefix='/')
 @home_router.get('')
 def index():    
     all_recipes = recipe_repository_singleton.get_all_recipes()
-    
+    for recipe in all_recipes:
+        recipe_author = user_repository_singleton.get_user_by_recipe(recipe)
+        return render_template('index.html', recipes=all_recipes, author=recipe_author)
+
     return render_template('index.html', recipes=all_recipes )
+
+#GET user posts
+@home_router.get('your-posts')
+def get_your_posts(): 
+
+    if 'user' not in session:
+        return redirect('/')
+
+    user_recipes = recipe_repository_singleton.get_recipes_by_user(session['user']['user_id'])
+    for recipe in user_recipes:
+        recipe_author = user_repository_singleton.get_user_by_recipe(recipe)
+        return render_template('your_posts.html', recipes=user_recipes, author=recipe_author)
+
+    return render_template('your_posts.html', recipes=user_recipes )
+
+#GET saved recipes
+@home_router.get('saved-recipes')
+def get_saved_posts(): 
+
+    if 'user' not in session:
+        return redirect('/')
+
+    saved_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
+    
+    for recipe in saved_recipes:
+        recipe_author = user_repository_singleton.get_user_by_recipe(recipe)
+        return render_template('saved_recipes.html', recipes=saved_recipes, author=recipe_author)
+
+    return render_template('saved_recipes.html', recipes=saved_recipes )
+
 
 # GET about
 @home_router.get('about')

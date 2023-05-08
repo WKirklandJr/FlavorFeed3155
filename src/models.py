@@ -17,6 +17,7 @@ class User(db.Model):
     social = db.Column(db.String, nullable=True)
     about = db.Column(db.String, nullable=True) 
     recipes = db.relationship('Recipe', backref='author', passive_deletes=True)
+    bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', passive_deletes=True)
 
 
     
@@ -43,14 +44,17 @@ class Tag(db.Model):
 
 
 
+
+
 # # Junction table for the n:n relationship b/w users and recipes
-bookmarks = db.Table(
-    'bookmarks',
-    db.Column('user_id', db.Integer, \
-              db.ForeignKey('users.user_id', ondelete='CASCADE'), primary_key=True),
-    db.Column('tag_id', db.Integer, \
+class Bookmark(db.Model):
+    __tablename__ = 'bookmarks'
+
+    user_id = db.Column('user_id', db.Integer, \
+              db.ForeignKey('users.user_id', ondelete='CASCADE'), primary_key=True)
+    recipe_id = db.Column('recipe_id', db.Integer, \
               db.ForeignKey('recipes.recipe_id', ondelete='CASCADE'), primary_key=True)
-)
+
 
 # Junction table for the n:n relationship b/w recipes and tags
 recipe_tag = db.Table(
@@ -77,7 +81,7 @@ class Recipe(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.String, db.ForeignKey('users.user_id',  ondelete='CASCADE'), nullable=False)
     tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes', passive_deletes=True)
-    #bookmark = db.relationship('User', secondary=bookmarks, backref='recipes')
+    bookmark = db.relationship('User', secondary='bookmarks', backref='recipe', passive_deletes=True)
 
 
     def __init__\

@@ -63,7 +63,14 @@ app.register_blueprint(recipes_router)
 @app.get('/search/<tagname>')
 def search_tag(tagname):
     tag = tag_repository_singleton.get_tag(tagname)
-    return render_template('search_posts.html', tag=tag)
+
+    for recipe in tag.recipes:
+        recipe_author = user_repository_singleton.get_user_by_recipe(recipe)
+
+    
+    return render_template('search_posts.html', tag=tag, author=recipe_author)
+
+
 
 # USER PAGES
 @app.get('/users/<int:user_id>')

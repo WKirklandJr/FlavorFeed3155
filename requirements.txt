@@ -5,10 +5,14 @@ Flask==2.2.3
 Flask-Bcrypt==1.0.1
 Flask-SQLAlchemy==3.0.3
 greenlet==2.0.2
+iniconfig==2.0.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.2
+packaging==23.1
+pluggy==1.0.0
 psycopg2==2.9.6
+pytest==7.3.1
 python-dotenv==1.0.0
 SQLAlchemy==2.0.9
 typing_extensions==4.5.0

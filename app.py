@@ -80,3 +80,8 @@ def get_user(user_id):
 
 # PROFILE PAGES
 app.register_blueprint(profile_router)
+
+# HOT POSTS PAGE
+@app.get('/hot_posts')
+def get_hot_posts():
+    return render_template('hot_posts.html')

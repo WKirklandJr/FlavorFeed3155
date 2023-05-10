@@ -6,14 +6,13 @@ import os
 
 profile_router = Blueprint('profiles', __name__, url_prefix='/profile')
 
-# GET profile
+# GET edit profile
 @profile_router.get('/<int:user_id>/edit')
 def get_edit_profile(user_id):
     
     if 'user' not in session:
         return redirect('/login')
     
-    #session_user = db.session.query(User).filter(User.username == session.get('user')['username']).first()
 
     username = session.get('user')['username']
     session_user = user_repository_singleton.get_user_by_username(username)

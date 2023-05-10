@@ -7,11 +7,11 @@
 <div class="d-flex flex-row ">
     <div class="user-panel ml-3 mt-4 p-3 col d-flex flex-column">
         <div class="mb-2" style="width: 100px; height: 100px;"><img style="width: 100px; height: 100px;"
-                src="/static/profile-images/{{author.profile_picture}}" alt=""></div>
-        <div><a class="text-warning" href="/users/{{author.user_id}}">{{author.username}}</a></div>
+                src="/static/profile-images/{{recipe.author.profile_picture}}" alt=""></div>
+        <div><a class="text-warning" href="/users/{{recipe.author.user_id}}">{{recipe.author.username}}</a></div>
 
 
-        <div class="text-secondary small mb-3">{{author.skill}}</div>
+        <div class="text-secondary small mb-3">{{recipe.author.skill}}</div>
 
 
         <!--- RECIPE TAGS ----->
@@ -45,39 +45,39 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
 
                 <div class="p-2 d-flex flex-row align-self-end">
-                                        <!---------BOOKMARK-------->
-                                    {% if username is not none and recipe.bookmark|length > 0 %}
+                    <!---------BOOKMARK-------->
+                    {% if username is not none %}
+                        
+                        {% if isbookmarked %}
+                        <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
+                            <button class="btn p-0">
+                                <span class="material-symbols-outlined text-red" style="font-variation-settings:'FILL' 1;">
+                                    bookmark
+                                </span>
+                            </button>
 
-                                    {% for bookmark in recipe.bookmark|selectattr("user_id", "equalto", user_id['user_id'] ) %}                
-                                        {% if bookmark|selectattr("user_id", "equalto", user_id['user_id']) %}
-                                            <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
-                                                <button class="btn p-0">
-                                                    <span class="material-symbols-outlined text-red" style="font-variation-settings:'FILL' 1;">
-                                                        bookmark
-                                                    </span>
-                                                </button>
-                                            </form>
-                                        {% endif %}
-                                        
-                                    {% endfor %}
-                                    {% if recipe.bookmark|selectattr("user_id", "notequal", user_id['user_id']) %}
-                                            <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
-                                                <button type="submit" class="btn p-0">
-                                                <span class="material-symbols-outlined text-red">bookmark</span></button>
-                                            </form>
-                                    {% endif %}
+                        </form>
+                        {% else %}
+                        <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                            <button type="submit" class="btn p-0">
+                                <span class="material-symbols-outlined text-red">bookmark</span></button>
+                        </form>
 
-                                    {% else %}
-                                        <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
-                                            <button type="submit" class="btn p-0">
-                                                <span class="material-symbols-outlined text-red">bookmark</span></button>
-                                        </form>
-                                    {% endif %}
-                                    {% if recipe.bookmark|length == 0 %}
-                                        <span class="text-red">0</span>
-                                        {% else %}
-                                        <span class="text-red">{{recipe.bookmark|length}}</span>
-                                    {% endif %}
+                        {% endif %}
+                            
+                        {% else %}
+                        <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                            <button type="submit" class="btn p-0">
+                                <span class="material-symbols-outlined text-red">bookmark</span></button>
+                        </form>
+
+
+                    {% endif %}
+                    {% if recipe.bookmark|length == 0 %}
+                    <span class="text-red">0</span>
+                    {% else %}
+                    <span class="text-red">{{recipe.bookmark|length}}</span>
+                    {% endif %}
                 </div>
             </div>
             <div class="p-2 col-3 align-self-end text-secondary">
@@ -184,7 +184,7 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
 
     {% if (comments)%}
-    {% for comment in comments %}
+    {% for comment in comments|reverse %}
 
 
     <div class="ml-5" style="background-color: rgba(0, 0, 0, 0.1); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
@@ -192,10 +192,10 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
         <div class=" d-flex flex-row ">
             <div class="p-3"><img class="rounded" style="width: 90px; height: 90px;"
-                    src="/static/profile-images/{{commentsuser.profile_picture}}" alt=""></div>
+                    src="/static/profile-images/{{comment.commentauthor.profile_picture}}" alt=""></div>
             <div class="my-4">
                 <div class="p-2 h5"> <a class="text-warning"
-                        href="/users/{{commentsuser.user_id}}">{{commentsuser.username}}</a> said: </div>
+                        href="/users/{{comment.commentauthor.user_id}}">{{comment.commentauthor.username}}</a> said: </div>
                 <div class="p-3 ml-5" style="border-left: solid 1px;">{{comment.comment}}</div>
 
             </div>

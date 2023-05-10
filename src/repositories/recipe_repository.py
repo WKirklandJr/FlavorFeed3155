@@ -19,6 +19,7 @@ class RecipeRepository:
         get_recipe = Recipe.query.filter_by(user_id = user_id).all()
         return get_recipe
 
+
     def get_recipes_by_bookmark(self, user_id):
         get_recipe = Recipe.query.join(Recipe.bookmark).filter_by(user_id = user_id).all()
         return get_recipe

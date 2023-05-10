@@ -18,8 +18,7 @@ class User(db.Model):
     about = db.Column(db.String, nullable=True) 
     recipes = db.relationship('Recipe', backref='author', passive_deletes=True)
     bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', passive_deletes=True)
-
-
+    comments = db.relationship('Comment', backref='commentauthor', passive_deletes=True)
     
     def __init__(self, email, username, password) -> None:
         self.email = email
@@ -82,7 +81,7 @@ class Recipe(db.Model):
     user_id = db.Column(db.String, db.ForeignKey('users.user_id',  ondelete='CASCADE'), nullable=False)
     tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes', passive_deletes=True)
     bookmark = db.relationship('User', secondary='bookmarks', backref='recipe', passive_deletes=True)
-
+    comments = db.relationship('Comment', backref='commentrecipe', passive_deletes=True)
 
     def __init__\
         (self, title,is_vegan,ingredients,equipment,duration,difficulty,instructions,recipe_image,date_posted,user_id) -> None:

@@ -29,7 +29,7 @@ class RecipeRepository:
         create_recipe = Recipe(title, is_vegan, ingredients, equipment,
                                duration, difficulty, instructions, recipe_image, date_posted, user_id)     
         db.session.add(create_recipe)
-        
+        db.session.commit()
         return create_recipe
 
     def update_recipe(self, recipe_id, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image):

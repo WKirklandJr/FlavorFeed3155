@@ -10,14 +10,16 @@
         <div class="list-group list-group-flush mx-3 mt-3">
 
             {% if username is none %}
-
-
+            <a href="/login" class="purelink pl-4 mb-1 mt-3 text-light">
+                <h2>SIGN IN</h2>
+            </a>
+            <hr class="m-0 ml-5 pl-4 mb-2" style="width: 45%; border-width: 2px; border-color: #ffc107;">
             {% else %}
             <h3><a class="purelink text-light text-uppercase" href="/users/{{user_id['user_id']}}">
                     {{username['username']}}</a></h3>
 
             <hr class="m-0 ml-5 pl-4 mb-2" style="width: 45%; border-width: 2px; border-color: #ffc107;">
-            {% endif %}
+
             <a href="/your-posts" class="purelink pl-4 mb-1 mt-3 text-secondary">
                 <h5>YOUR POSTS</h5>
             </a>
@@ -25,9 +27,9 @@
             <a href="/saved-recipes" class="purelink pl-4 mb-1 text-secondary">
                 <h5>SAVED RECIPES</h5>
             </a>
+            {% endif %}
 
-
-            <a href="#" class=" purelink pl-4 mb-1 text-secondary">
+            <a href="https://github.com/WKirklandJr/FlavorFeed3155" class=" purelink pl-4 mb-1 text-secondary" >
                 <h5>CONTACT US</h5>
             </a>
         </div>
@@ -62,43 +64,45 @@
                         <div class="h2 m-0 pl-2 mb-2"><a class="text-light purelink"
                                 href="/recipes/{{recipe.recipe_id}}">{{recipe.title}}
 
-                            </a></div>
+                            </a>
+                        </div>
 
                         <div class="d-flex flex-row pt-2 col-2 pl-2">
-                      <!---------BOOKMARK-------->
-                      {% if username is not none and recipe.bookmark|length > 0 %}
+                            <!---------BOOKMARK-------->
+                            {% if username is not none %}
 
-                      {% for bookmark in recipe.bookmark|selectattr("user_id", "equalto", user_id['user_id'] ) %}                
-                          {% if bookmark|selectattr("user_id", "equalto", user_id['user_id']) %}
-                              <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
-                                  <button class="btn p-0">
-                                      <span class="material-symbols-outlined text-red" style="font-variation-settings:'FILL' 1;">
-                                          bookmark
-                                      </span>
-                                  </button>
-                              </form>
-                          {% endif %}
-                          
-                      {% endfor %}
-                      {% if recipe.bookmark|selectattr("user_id", "notequal", user_id['user_id']) %}
-                              <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
-                                  <button type="submit" class="btn p-0">
-                                  <span class="material-symbols-outlined text-red">bookmark</span></button>
-                              </form>
-                      {% endif %}
+                            {% if recipe in bookmarked %}
+                            <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
+                                <button class="btn p-0">
+                                    <span class="material-symbols-outlined text-red"
+                                        style="font-variation-settings:'FILL' 1;">
+                                        bookmark
+                                    </span>
+                                </button>
 
-                      {% else %}
-                          <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
-                              <button type="submit" class="btn p-0">
-                                  <span class="material-symbols-outlined text-red">bookmark</span></button>
-                          </form>
-                      {% endif %}
-                      {% if recipe.bookmark|length == 0 %}
-                          <span class="text-red">0</span>
-                          {% else %}
-                          <span class="text-red">{{recipe.bookmark|length}}</span>
-                      {% endif %}
-                    </div>
+                            </form>
+                            {% else %}
+                            <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                <button type="submit" class="btn p-0">
+                                    <span class="material-symbols-outlined text-red">bookmark</span></button>
+                            </form>
+
+                            {% endif %}
+
+                            {% else %}
+                            <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                <button type="submit" class="btn p-0">
+                                    <span class="material-symbols-outlined text-red">bookmark</span></button>
+                            </form>
+
+
+                            {% endif %}
+                            {% if recipe.bookmark|length == 0 %}
+                            <span class="text-red">0</span>
+                            {% else %}
+                            <span class="text-red">{{recipe.bookmark|length}}</span>
+                            {% endif %}
+                        </div>
 
                     </div>
 
@@ -112,8 +116,9 @@
 
 
                 <div class="d-flex px-4">
-                    <div class="mr-2"><img class="rounded-circle" src="/static/profile-images/{{author.profile_picture}}" style="width: 25px; height: 25px;"></div> by <a
-                        class="text-warning pl-1" href="/users/{{author.user_id}}">{{author.username}}</a>
+                    <div class="mr-2"><img class="rounded-circle"
+                            src="/static/profile-images/{{recipe.author.profile_picture}}" style="width: 25px; height: 25px;">
+                    </div> by <a class="text-warning pl-1" href="/users/{{recipe.author.user_id}}">{{recipe.author.username}}</a>
                 </div>
 
                 <div class="d-flex mt-auto p-3 justify-content-between">
@@ -134,7 +139,6 @@
             </div>
 
         </div>
-
         {% endfor %}
 
     </div>

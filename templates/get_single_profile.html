@@ -5,10 +5,14 @@
 
 {% block body %}
 <div class="bg-red3">
-    <div class="bg-light" style="width: 100%; height: 50px; overflow: hidden;"><img src="/static/images/PROFILE_BACKGROUND.jpg" alt=""></div>
+    <div class="bg-light" style="width: 100%; height: 50px; overflow: hidden;"><img
+            src="/static/images/PROFILE_BACKGROUND.jpg" alt=""></div>
     <div class="d-flex flex-row pl-5 ">
         <div class="col-1 mr-3 d-flex flex-column" style="position: relative; bottom: 25px;">
-            <div class="bg-light rounded" style="width: 120px; height: 120px; overflow:hidden; border: solid 4px #5B0B0E;"><img src="/static/profile-images/{{user.profile_picture}}" style="width: 110px; height: 110px;" alt=""></div>
+            <div class="bg-light rounded"
+                style="width: 120px; height: 120px; overflow:hidden; border: solid 4px #5B0B0E;"><img
+                    src="/static/profile-images/{{user.profile_picture}}" style="width: 110px; height: 110px;" alt="">
+            </div>
             <div>
                 <button class="btn btn-warning m-1 mt-2 p-0 px-2" style="height: 30px;">+ Follow</button>
             </div>
@@ -26,10 +30,10 @@
 <div class="d-flex flex-row justify-content-center" style="background-color: rgba(0, 0, 0, 0.1)">
     <ul class="nav nav-tabs">
         <li class="active px-2"> <a class="purelink text-secondary" data-toggle="tab" href="#recipes">
-                <div class="p-2 h4 ">VIEW RECIPES ()</div>
+                <div class="p-2 h4 ">VIEW RECIPES ({{recipes|length}})</div>
             </a></li>
         <li class="px-2"> <a class="purelink text-secondary" data-toggle="tab" href="#comments">
-                <div class="p-2 h4 ">VIEW COMMENTS ()</div>
+                <div class="p-2 h4 ">VIEW COMMENTS ({{comments|length}})</div>
             </a></li>
 
     </ul>
@@ -38,14 +42,133 @@
 <div>
     <div class="tab-content p-5 justify-content-center">
         <div id="recipes" class="tab-pane active">
-            
-            recipe content
+            {% for recipe_row in recipes| batch(2)%}
+            <div class="d-flex flex-row justify-content-center">
+
+                {% for recipe in recipe_row |reverse %}
+                <div class="post mx-5 my-3" style="width: 550px;">
+
+                    <div class="p-2 text-secondary">{{recipe.date_posted.strftime('%b %d @ %I:%M %p')}} </div>
+                    <div class="card postcard" >
+                        <!--POST IMAGE-->
+
+                        <div class="card postcard-image flex-row bg-red" >
+
+                            <img style="width:100%" src="../static/post-images/{{recipe.recipe_image}}" alt="">
+                        </div>
+
+
+                        <div class="d-flex px-3 pt-2 flex-row justify-content-between">
+                            <div class="d-flex flex-row">
+                                <!--RECIPE NAME-->
+                                <div class="h2 m-0 pl-2 mb-2"><a class="text-light purelink"
+                                        href="/recipes/{{recipe.recipe_id}}">{{recipe.title}}
+
+                                    </a>
+                                </div>
+
+                                <div class="d-flex flex-row pt-2 col-2 pl-2">
+                                    <!---------BOOKMARK-------->
+                                    {% if username is not none %}
+
+                                    {% if recipe in bookmarked %}
+                                    <form method="post" action="/recipes/{{recipe.recipe_id}}/unbookmark">
+                                        <button class="btn p-0">
+                                            <span class="material-symbols-outlined text-red"
+                                                style="font-variation-settings:'FILL' 1;">
+                                                bookmark
+                                            </span>
+                                        </button>
+
+                                    </form>
+                                    {% else %}
+                                    <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                        <button type="submit" class="btn p-0">
+                                            <span class="material-symbols-outlined text-red">bookmark</span></button>
+                                    </form>
+
+                                    {% endif %}
+
+                                    {% else %}
+                                    <form method="post" action="/recipes/{{recipe.recipe_id}}/bookmark">
+                                        <button type="submit" class="btn p-0">
+                                            <span class="material-symbols-outlined text-red">bookmark</span></button>
+                                    </form>
+
+
+                                    {% endif %}
+                                    {% if recipe.bookmark|length == 0 %}
+                                    <span class="text-red">0</span>
+                                    {% else %}
+                                    <span class="text-red">{{recipe.bookmark|length}}</span>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                            <!--DURATION TIME-->
+                            <div class="d-flex flex row p-2 col-3"> <span
+                                    class="material-symbols-outlined text-warning px-2">
+                                    nest_clock_farsight_analog
+                                </span>
+                                <div>{{recipe.duration}} mins </div>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex px-4">
+                            <div class="mr-2"><img class="rounded-circle"
+                                    src="/static/profile-images/{{recipe.author.profile_picture}}"
+                                    style="width: 25px; height: 25px;">
+                            </div> by <a class="text-warning pl-1"
+                                href="/users/{{recipe.author.user_id}}">{{recipe.author.username}}</a>
+                        </div>
+
+                        <div class="d-flex mt-auto p-3 justify-content-between">
+
+                            <div>{% for tag in recipe.tags%}
+                                <a href="{{ url_for('search_tag', tagname=tag.tagname)}}"
+                                    class="badge badge-warning">{{tag.tagname}}</a>
+                                {% endfor %}
+                            </div>
+
+                            <div><a href="#" class="text-secondary"><span
+                                        class="material-symbols-outlined">chat_bubble</span></a>
+                                <a href="#" class="text-secondary"><span class="material-symbols-outlined">
+                                        more_horiz
+                                    </span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
 
         </div>
         <div id="comments" class="tab-pane fade">
-            comment content
-            
+            {% if (comments)%}
+            {% for comment in comments|reverse %}
+         
+            <div class="ml-5" style="background-color: rgba(0, 0, 0, 0.1); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
+        
+                <h4 class="px-3 pt-3">From <a class="text-red" href="/recipes/{{comment.recipe_id}}">{{comment.commentrecipe.title}}</a> :</h4>
+                <div class=" d-flex flex-row ">
+                    <div class="p-3"><img class="rounded" style="width: 90px; height: 90px;"
+                            src="/static/profile-images/{{comment.commentauthor.profile_picture}}" alt=""></div>
+                    <div class="my-4">
+                        <div class="p-2 h5"><a class="text-warning"
+                                href="/users/{{comment.commentauthor.user_id}}">{{comment.commentauthor.username}}</a> said: </div>
+                        <div class="p-3 ml-5" style="border-left: solid 1px;">{{comment.comment}}</div>
+        
+                    </div>
                 </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+        </div>
 
     </div>
 

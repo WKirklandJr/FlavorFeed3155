@@ -94,4 +94,6 @@ app.register_blueprint(profile_router)
 # HOT POSTS PAGE
 @app.get('/hot_posts')
 def get_hot_posts():
-    return render_template('hot_posts.html')
+    hot_posts = recipe_repository_singleton.get_all_bookmarked_recipes()
+    
+    return render_template('hot_posts.html', hot_posts=hot_posts)

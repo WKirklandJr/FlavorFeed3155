@@ -127,7 +127,7 @@
                         <div class="d-flex mt-auto p-3 justify-content-between">
 
                             <div>{% for tag in recipe.tags%}
-                                <a href="{{ url_for('search_tag', tagname=tag.tagname)}}"
+                                <a href="{{ url_for('search.search_tag', tagname=tag.tagname)}}"
                                     class="badge badge-warning">{{tag.tagname}}</a>
                                 {% endfor %}
                             </div>

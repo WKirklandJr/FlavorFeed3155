@@ -20,7 +20,7 @@
 
 
             {% for tag in recipe.tags %}
-            <a class="badge badge-warning" href="{{ url_for('search_tag', tagname=tag.tagname)}}">
+            <a class="badge badge-warning" href="{{ url_for('search.search_tag', tagname=tag.tagname)}}">
                 {{tag.tagname}}
             </a>
             {% endfor %}

@@ -80,6 +80,10 @@ def get_hour_recipes():
 # GET new recipe
 @recipes_router.get('/new')
 def create_recipe_page():
+
+    if 'user' not in session:
+        return redirect('/login')
+    
     return render_template('create_recipe.html')
 
 # POST new recipe
@@ -258,4 +262,3 @@ def unbookmark_post(recipe_id):
     current_recipe.bookmark.remove(get_user)
     db.session.commit()
     return redirect(f'/recipes/{recipe_id}')
-

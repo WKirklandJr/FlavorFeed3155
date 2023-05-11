@@ -1,7 +1,5 @@
-from flask.testing import FlaskClient
 
-
-def test_home_page(test_app: FlaskClient):
+def test_home_page(test_app):
     response = test_app.get('/register')
     response_data = response.data.decode('utf-8')
 

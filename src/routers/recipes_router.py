@@ -12,15 +12,10 @@ recipes_router = Blueprint('recipes', __name__, url_prefix='/recipes')
 # GET all recipes
 @recipes_router.get('')
 def recipes():
+    tab_title='All Recipes'
     all_recipes = recipe_repository_singleton.get_all_recipes()
     
-    bookmarked_recipes = None
-
-    if 'user' in session:
-        bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
-
-
-    return render_template('recipes.html', recipes=all_recipes, bookmarked=bookmarked_recipes)
+    return render_template('recipes.html', recipes=all_recipes, title=tab_title)
 
 # GET single recipe
 @recipes_router.get('/<int:recipe_id>')
@@ -36,10 +31,51 @@ def get_recipe(recipe_id):
         for bookmark in current_recipe.bookmark:
             if bookmark.user_id ==  session['user']['user_id']:
                 isbookmarked = True   
-
-
     
     return render_template('get_single_recipe.html', recipe=single_recipe, comments=recipe_comments, isbookmarked=isbookmarked)
+
+
+#GET beginner recipes
+@recipes_router.get('/beginners')
+def get_beginner():
+    beginner_recipes = recipe_repository_singleton.get_recipe_by_difficulty('Beginner')
+    tab_title='For Beginners'
+
+    return render_template('recipes.html', recipes=beginner_recipes, title=tab_title)
+
+#GET vegan recipes
+@recipes_router.get('/vegan')
+def get_vegan():
+    vegan_recipes = recipe_repository_singleton.get_recipe_by_vegan(True)
+    tab_title='Vegan Recipes'
+
+    return render_template('recipes.html', recipes=vegan_recipes, title=tab_title)
+
+#GET < 5 ingredient recipes
+
+@recipes_router.get('/fiveingredients')
+def get_5_ingredients():
+    all_recipes = recipe_repository_singleton.get_all_recipes()
+    subfive = []
+
+    for recipe in all_recipes:
+        ingredientlist = recipe.ingredients.split(",")
+        if len(ingredientlist) < 5:
+            subfive.append(recipe)
+             
+    tab_title='< 5 Ingredient Recipes'
+    return render_template('recipes.html', recipes=subfive, title=tab_title)
+
+#GET hour less recipes 
+@recipes_router.get('/hour')
+def get_hour_recipes():
+    
+    hour_recipe = recipe_repository_singleton.get_recipe_by_duration('61')
+    tab_title='< Hour Recipes'
+
+    return render_template('recipes.html', recipes=hour_recipe, title=tab_title)
+
+
 
 # GET new recipe
 @recipes_router.get('/new')

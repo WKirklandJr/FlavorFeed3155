@@ -43,41 +43,45 @@
                     <a class="nav-link dropdown-toggle" href="/recipes" data-hover="dropdown">
                         RECIPES </a>
                     <div class="dropdown-menu bg-red">
-                        <a class="dropdown-item" href="#"><span class="material-symbols-outlined" style="font-variation-settings:
+                        <a class="dropdown-item" href="/recipes/beginners"><span class="material-symbols-outlined" style="font-variation-settings:
                             'FILL' 1,
                             'wght' 400,
                             'GRAD' 0,
                             'opsz' 10; 
                             padding-right: .5em;
+                            vertical-align: middle;
                             font-size: 1.3em;">
                                 lunch_dining
                             </span>FOR BEGINNERS</a>
-                        <a class="dropdown-item" href="#"><span class="material-symbols-outlined">
+                        <a class="dropdown-item" href="/recipes/vegan"><span class="material-symbols-outlined">
                                 <span class="material-symbols-outlined" style="font-variation-settings:
                             'FILL' 1,
                             'wght' 400,
                             'GRAD' 0,
                             'opsz' 10; 
                             padding-right: .4em;
+                            vertical-align: middle;
                             font-size: .9em;">
                                     psychiatry
                                 </span>
                             </span>VEGAN</a>
-                        <a class="dropdown-item" href="#"><span class="material-symbols-outlined" style="font-variation-settings:
+                        <a class="dropdown-item" href="/recipes/fiveingredients"><span class="material-symbols-outlined" style="font-variation-settings:
                             'FILL' 0,
                             'wght' 400,
                             'GRAD' 0,
                             'opsz' 10;
                             padding-right: .4em;
+                            vertical-align: middle;
                             font-size: 1.4em;">
                                 format_list_bulleted
                             </span>5 INGREDIENTS OR LESS</a>
-                        <a class="dropdown-item" href="#"> <span class="material-symbols-outlined" style="font-variation-settings:
+                        <a class="dropdown-item" href="/recipes/hour"> <span class="material-symbols-outlined" style="font-variation-settings:
                             'FILL' 1,
                             'wght' 400,
                             'GRAD' 0,
                             'opsz' 10;
                             padding-right: .5em;
+                            vertical-align: middle;
                             font-size: 1.25em;">
                                 timer
                             </span>HOUR OR LESS</a>
@@ -104,7 +108,8 @@
                                 'GRAD' 0,
                                 'opsz' 10;
                                 padding-right: .5em;
-                                font-size: 1.25em;">
+                                vertical-align: middle;
+                                font-size: 1.2em;">
                                 restaurant
                             </span>CREATE RECIPE</a>
 
@@ -113,9 +118,10 @@
                 </li>
 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control search mr-sm-0 " type="search" placeholder="Search" aria-label="Search">
-                <button class="btn text-light  my-sm-0" type="submit"> <span class="material-symbols-outlined"
+
+            <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+                <input class="form-control search mr-sm-0 " type="text" placeholder="Search" name="q" id="q">
+                <button class="btn text-light my-sm-0" type="submit" > <span class="material-symbols-outlined"
                         type="search">search</span></button>
 
             </form>
@@ -124,6 +130,7 @@
 
 
             {% if username is none %}
+
             <a href="/login"><button class="btn btn-warning my-2 my-sm-0 ml-sm-2" type="button">SIGN IN</button></a>
 
             {% else %}

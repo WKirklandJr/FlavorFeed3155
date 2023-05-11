@@ -11,28 +11,29 @@ home_router = Blueprint('home', __name__, url_prefix='/')
 def index():    
     all_recipes = recipe_repository_singleton.get_all_recipes()
 
-    bookmarked_recipes = None
-    if 'user' in session:
-        bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
-
-
-    return render_template('index.html', recipes=all_recipes, bookmarked=bookmarked_recipes )
+    highlightone = 'text-secondary'
+    highlighttwo = 'text-secondary'
+    return render_template('index.html', recipes=all_recipes, highlightone=highlightone, highlighttwo=highlighttwo  )
 
 #GET user posts
-@home_router.get('your-posts')
+@home_router.get('yourposts')
 def get_your_posts(): 
 
     if 'user' not in session:
         return redirect('/')
-
     user_recipes = recipe_repository_singleton.get_recipes_by_user(session['user']['user_id'])
-    bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
 
+    #Page customization
+    userfeed = True
+    highlightone = 'text-red'
+    highlighttwo = 'text-secondary'
+    page_title = 'YOUR POSTS'
 
-    return render_template('your_posts.html', recipes=user_recipes, bookmarked=bookmarked_recipes )
+    return render_template('index.html', recipes=user_recipes,\
+                            highlightone=highlightone, highlighttwo=highlighttwo, title=page_title, userfeed=userfeed)
 
 #GET saved recipes
-@home_router.get('saved-recipes')
+@home_router.get('savedrecipes')
 def get_saved_posts(): 
 
     if 'user' not in session:
@@ -40,7 +41,14 @@ def get_saved_posts():
 
     bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
 
-    return render_template('saved_recipes.html', recipes=bookmarked_recipes )
+    #Page customization
+    userfeed = True
+    highlightone = 'text-secondary'
+    highlighttwo = 'text-red'
+    page_title = 'SAVED RECIPES'
+
+    return render_template('index.html', recipes=bookmarked_recipes,\
+                            highlightone=highlightone, highlighttwo=highlighttwo, title=page_title, userfeed=userfeed )
 
 
 # GET about

@@ -46,14 +46,27 @@ def userauth(route):
 # Gets session username across application
 @app.context_processor
 def getusername():
-    return {'username': session.get('user')} 
+    if 'user' in session:
+        return {'username': session.get('user')}
+    return {'username': None}
+ 
 
 # Gets session user ID across application
 @app.context_processor
 def getuserID():
     if 'user' in session:
         return {'user_id': session.get('user') } 
-    return ''
+    return {'user_id': None}
+
+# Gets user bookmark across application
+@app.context_processor
+def inject_bookmark():
+    def getbookmarks():
+        bookmarked_recipes = None
+        if 'user' in session:
+            bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
+        return bookmarked_recipes
+    return{ 'bookmarked': getbookmarks() }
 
 # HOME PAGES
 app.register_blueprint(home_router)
@@ -65,15 +78,17 @@ app.register_blueprint(recipes_router)
 @app.get('/search/<tagname>')
 def search_tag(tagname):
     tag = tag_repository_singleton.get_tag(tagname)
-
-    bookmarked_recipes = None
-    if 'user' in session:
-        bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
-
    
-    return render_template('search_posts.html', tag=tag, bookmarked=bookmarked_recipes)
+    return render_template('tagged_posts.html', tag=tag)
 
-
+@app.get('/search')
+def search_recipe():
+    q = request.args.get('q')
+    if q != '':
+        found_recipes = recipe_repository_singleton.search_recipe(q)
+        return render_template('search_posts.html', search_active=True, recipes=found_recipes, search_query=q)
+    else:
+        return redirect('/')
 
 # USER PAGES
 @app.get('/users/<int:user_id>')
@@ -82,11 +97,7 @@ def get_user(user_id):
     user_recipes = recipe_repository_singleton.get_recipes_by_user(user_id)
     user_comments = comment_repository_singleton.get_comment_by_user_id(user_id)
 
-    bookmarked_recipes = None
-    if 'user' in session:
-        bookmarked_recipes = recipe_repository_singleton.get_recipes_by_bookmark(session['user']['user_id'])
-
-    return render_template('get_single_profile.html', user=single_user, recipes=user_recipes,comments=user_comments, bookmarked=bookmarked_recipes)
+    return render_template('get_single_profile.html', user=single_user, recipes=user_recipes,comments=user_comments)
 
 # PROFILE PAGES
 app.register_blueprint(profile_router)
@@ -94,4 +105,6 @@ app.register_blueprint(profile_router)
 # HOT POSTS PAGE
 @app.get('/hot_posts')
 def get_hot_posts():
-    return render_template('hot_posts.html')
+    hot_posts = recipe_repository_singleton.get_all_bookmarked_recipes()
+    
+    return render_template('hot_posts.html', hot_posts=hot_posts)

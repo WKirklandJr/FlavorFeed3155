@@ -23,6 +23,15 @@ class RecipeRepository:
     def get_recipes_by_bookmark(self, user_id):
         get_recipe = Recipe.query.join(Recipe.bookmark).filter_by(user_id = user_id).all()
         return get_recipe
+    
+    def get_all_bookmarked_recipes(self):
+        bookmarked_recipes = Recipe.query.join(Recipe.bookmark).all()
+
+        for recipe in bookmarked_recipes:
+            recipe.num_bookmarks = len(recipe.bookmark)
+
+        bookmarked_recipes_sorted = sorted(bookmarked_recipes, key=lambda x : x.num_bookmarks, reverse=True)
+        return bookmarked_recipes_sorted
 
     def create_recipe(self, title, is_vegan, ingredients, equipment, duration, difficulty, instructions, recipe_image, date_posted, user_id):
         

@@ -33,12 +33,15 @@
     <div class="col-md-10 getpost-content p-4" style="background-color: rgba(0, 0, 0, 0.1);
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.56);">
 
+    
+        {% if username is not none and user_id['user_id'] == recipe.author.user_id %}
         <div class="d-flex flex-row justify-content-end">
             <a class="text-warning px-4 " href="/recipes/{{recipe.recipe_id}}/edit">edit post</a>
         </div>
-
         <hr class="m-0 mb-1" style="border-color: #BF8484;">
-        <div class="d-flex flex-row">
+        {% endif %}
+
+        <div class="d-flex flex-row mt-2">
 
             <div class="d-flex flex-row col-6">
                 <h2 class="">{{ recipe.title }}</h2>

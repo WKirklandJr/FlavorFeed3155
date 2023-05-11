@@ -10,12 +10,12 @@ def test_create_recipe():
         recipe = recipe_repository_singleton.create_recipe('test_recipe'\
             , False, 'chicken, rice, beans', 'pan, spatula', 30, 'Intermediate'\
             , 'cook it', '.../static/post-images/chicken.png', '2023-05-11 15:42:12-07', '1')
-        recipe_id = recipe.recipe_id
         
-        recipe_by_id = recipe_repository_singleton.get_recipe_by_id(recipe_id)
-
-        assert recipe_by_id.title == 'test_recipe'
-        assert recipe_by_id.ingredients == 'chicken, rice, beans'
-        assert recipe_by_id.equipment == 'pan, spatula'
-        assert recipe_by_id.duration == 30
-        assert recipe_by_id.difficulty == 'Intermediate'
+        recipe_2 = recipe_repository_singleton.create_recipe('test_recipe_2'\
+            , False, 'chicken, rice, beans, broccoli', 'pan, spatula', 30, 'Intermediate'\
+            , 'cook it', '.../static/post-images/chicken.png', '2023-05-11 15:42:12-07', '1')
+        
+        recipe_repository_singleton.delete_recipe(recipe_2.recipe_id)
+        
+        assert recipe in recipe_repository_singleton.get_all_recipes()
+        assert recipe_2 not in recipe_repository_singleton.get_all_recipes()

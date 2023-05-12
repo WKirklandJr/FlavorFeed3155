@@ -3,7 +3,7 @@ from src.repositories.user_repository import user_repository_singleton
 from app import app
 from src.models import db, Recipe, User
 
-def test_get_all_users():
+def test_get_all_recipes():
     with app.app_context():
         db.session.query(Recipe).delete()
         db.session.query(User).delete()

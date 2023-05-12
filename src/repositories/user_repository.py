@@ -36,5 +36,12 @@ class UserRepository:
         db.session.commit()
         return update_user
 
+    
+    def delete_user(self, user_id):
+        user_to_delete = User.query.filter_by(user_id = user_id).first_or_404()
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return user_to_delete
+    
 
 user_repository_singleton = UserRepository()

@@ -9,6 +9,10 @@
 
 
 <h2 class="py-4 ">EDIT PROFILE ({{user.username}})</h2>
+<form method="post" action="/profile/{{user.user_id}}/edit/delete">
+    <div class="d-flex flex-row justify-content-end mt-2"><button type="submit" class="btn btn-outline-danger">DELETE ACCOUNT</button></div>
+  </form>
+
     <form class="ml-3" method="post" action="/profile/{{user.user_id}}/edit" enctype="multipart/form-data">
 
         <div class="form-group mb-3">

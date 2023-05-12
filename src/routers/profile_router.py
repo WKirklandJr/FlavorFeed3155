@@ -25,6 +25,16 @@ def get_edit_profile(user_id):
         single_user = user_repository_singleton.get_user_by_id(user_id)
         return render_template('edit_profile.html', user=single_user)
 
+
+#DELETE profile
+@profile_router.post('/<int:user_id>/edit/delete')
+def delete_user(user_id):
+    
+    user_repository_singleton.delete_user(user_id)
+    del session['user']
+    
+    return redirect('/')
+
 #POST profile
 @profile_router.post('/<int:user_id>/edit')
 def update_user(user_id):

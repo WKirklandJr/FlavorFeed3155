@@ -17,7 +17,7 @@ class User(db.Model):
     social = db.Column(db.String, nullable=True)
     about = db.Column(db.String, nullable=True) 
     recipes = db.relationship('Recipe', backref='author', overlaps="bookmark,user", passive_deletes=True)
-    bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', overlaps="bookmark,user", passive_deletes=True)
+    bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', passive_deletes=True)
     comments = db.relationship('Comment', backref='commentauthor', passive_deletes=True)
     
     def __init__(self, email, username, password) -> None:

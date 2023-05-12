@@ -161,8 +161,16 @@
                         <div class="p-2 h5"><a class="text-warning"
                                 href="/users/{{comment.commentauthor.user_id}}">{{comment.commentauthor.username}}</a> said: </div>
                         <div class="p-3 ml-5" style="border-left: solid 1px;">{{comment.comment}}</div>
-        
+                                
                     </div>
+                    {% if username['username'] == comment.commentauthor.username %}
+                    <div class="ml-auto m-3 align-self-end">
+                        <form method="post" action="/recipes/{{comment.recipe_id}}/deletecomment/{{comment.comment_id}}"><button type="submit" class="p-1 px-2 pt-2 mr-5 btn btn-outline-danger text-red">
+                         <span class="material-symbols-outlined" style="font-size: 25px;">
+                        delete
+                        </span> 
+                    </button></form></div>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

@@ -20,5 +20,13 @@ class CommentRepository:
 
         return get_comments
     
+    def delete_comment(self, comment_id):
+    
+        comment_to_delete = Comment.query.filter_by(comment_id = comment_id).first_or_404()
+        db.session.delete(comment_to_delete)
+        db.session.commit()
+        return comment_to_delete
+
+    
 # Singleton: Restricts the instantiation of a class to a single instance   
 comment_repository_singleton = CommentRepository()

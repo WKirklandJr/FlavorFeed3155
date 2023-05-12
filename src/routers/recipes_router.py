@@ -236,6 +236,11 @@ def post_comment(recipe_id):
 
     return redirect(f'/recipes/{recipe_id}')
 
+@recipes_router.post('/<int:recipe_id>/deletecomment/<int:comment_id>')
+def delete_comment(comment_id, recipe_id): 
+    comment_repository_singleton.delete_comment(comment_id)
+    return redirect(f'/recipes/{recipe_id}')
+
 #---------- BOOKMARKS
 @recipes_router.post('/<int:recipe_id>/bookmark')
 def bookmark_post(recipe_id):

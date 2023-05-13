@@ -17,7 +17,7 @@ class User(db.Model):
     social = db.Column(db.String, nullable=True)
     about = db.Column(db.String, nullable=True) 
     recipes = db.relationship('Recipe', backref='author', overlaps="bookmark,user", passive_deletes=True)
-    bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', passive_deletes=True)
+    bookmark = db.relationship('Recipe', secondary='bookmarks', backref='user', overlaps="bookmark,user", passive_deletes=True)
     comments = db.relationship('Comment', backref='commentauthor', passive_deletes=True)
     
     def __init__(self, email, username, password) -> None:
@@ -80,7 +80,7 @@ class Recipe(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.String, db.ForeignKey('users.user_id',  ondelete='CASCADE'), nullable=False)
     tags = db.relationship('Tag', secondary=recipe_tag, backref='recipes', passive_deletes=True)
-    bookmark = db.relationship('User', secondary='bookmarks', backref='recipe', overlaps="bookmark,user", passive_deletes=True)
+    bookmark = db.relationship('User', secondary='bookmarks', backref='recipe', passive_deletes=True)
     comments = db.relationship('Comment', backref='commentrecipe', passive_deletes=True)
 
     def __init__\

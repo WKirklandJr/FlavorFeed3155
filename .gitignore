@@ -2,7 +2,9 @@ venv
 __pycache__
 .env
 .vscode
-bootstrap.min.css
-bootstrap.min.css.map
-static/post-images/
-static/profile-images/
+
+# exclude media images
+static/post-images/*
+static/profile-images/*
+!static/post-images/.gitkeep 
+!static/profile-images/.gitkeep 
